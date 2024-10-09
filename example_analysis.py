@@ -8,9 +8,9 @@ from data_loader import DataLoader
 from model import Issue,Event
 import config
 
-class AnalysisOne:
+class ExampleAnalysis:
     """
-    Implements the first analysis of GitHub
+    Implements an example analysis of GitHub
     issues and outputs the result of that analysis.
     """
     
@@ -61,4 +61,4 @@ class AnalysisOne:
 
 if __name__ == '__main__':
     # Invoke run method when running this module directly
-    AnalysisOne().run()
+    ExampleAnalysis().run()

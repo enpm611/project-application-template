@@ -11,6 +11,8 @@ This application template implements some of the basic functions:
 
 With the utility functions provided, you should focus on implementing creative analyses that generate intersting and insightful insights.
 
+In addition to the utility functions, an example analysis has also been implemented in `example_analysis.py`. It illustrates how to use the provided utility functions and how to produce output.
+
 ## Setup
 
 To get started, your team should create a fork of this repository. Then, every team member should clone your repository to their local computer. 
@@ -31,10 +33,10 @@ Download the data file (in `json` format) from the project assignment in Canvas 
 
 ### Run an analysis
 
-With everything set up, you should be able to run the existing (dummy) analysis:
+With everything set up, you should be able to run the existing example analysis:
 
 ```
-python run.py --feature 1
+python run.py --feature 0
 ```
 
 That will output basic information about the issues to the command line.
