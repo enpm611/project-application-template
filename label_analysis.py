@@ -1,15 +1,19 @@
 from typing import List
 import matplotlib.pyplot as plt
-import numpy as np
 import pandas as pd
 
 from data_loader import DataLoader
-from model import Issue, Event
+from model import Issue
 import config
 
 class LabelAnalysis:
     """
-    dd
+    Implements a label analysis of the Github issues
+    Does the following analysis:
+        - Prints the number of unique labels
+        - Prints the number of issues with the user inputted label
+        - Plots the top 20 most used labels my number of issues
+        - Plots the number of new issues created with the user inputted label per month
     """
     
     def __init__(self):
@@ -74,10 +78,3 @@ class LabelAnalysis:
 if __name__ == '__main__':
     # Invoke run method when running this module directly
     LabelAnalysis().run()
-    
-    
-"""
-Create a bar chart with label usage
-
-
-"""
