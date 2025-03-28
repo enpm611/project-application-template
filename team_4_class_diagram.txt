@@ -1,0 +1,76 @@
+classDiagram
+    class Issue {
+        +string url
+        +string creator
+        +List~string~ labels
+        +State state
+        +List~string~ assignees
+        +string title
+        +string text
+        +int number
+        +datetime created_date
+        +datetime updated_date
+        +string timeline_url
+        +List~Event~ events
+        +from_json(jobj)
+    }
+    
+    class Event {
+        +string event_type
+        +string author
+        +datetime event_date
+        +string label
+        +string comment
+        +from_json(jobj)
+    }
+    
+    class State {
+        <<enumeration>>
+        open
+        closed
+    }
+    
+    class DataLoader {
+        -string data_path
+        +get_issues() List~Issue~
+        -_load() List~Issue~
+    }
+    
+    class Config {
+        +get_parameter(parameter_name, default) any
+        +set_parameter(name, value) void
+        +overwrite_from_args(args) void
+    }
+    
+    class LabelAnalysis {
+        -string label
+        +run() void
+        -analyze_label_activity() DataFrame
+        -plot_label_distribution() void
+        -plot_label_resolution_time() void
+    }
+    
+    class ContributorAnalysis {
+        -string user
+        +run() void
+        -analyze_contributor_activity() DataFrame
+        -plot_top_contributors() void
+        -plot_contributor_label_distribution() void
+    }
+    
+    class TimelineAnalysis {
+        +run() void
+        -analyze_issue_timeline() DataFrame
+        -plot_issue_creation_over_time() void
+        -plot_issue_resolution_over_time() void
+    }
+    
+    DataLoader --> Issue : creates
+    Issue --> Event : contains
+    Issue --> State : has
+    LabelAnalysis --> DataLoader : uses
+    ContributorAnalysis --> DataLoader : uses
+    TimelineAnalysis --> DataLoader : uses
+    LabelAnalysis --> Config : uses
+    ContributorAnalysis --> Config : uses
+    TimelineAnalysis --> Config : uses

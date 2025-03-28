@@ -1,0 +1,34 @@
+erDiagram
+    Issue ||--o{ Event : "has"
+    Issue ||--o{ Label : "has"
+    Issue ||--o{ User : "assigned to"
+    User ||--o{ Issue : "creates"
+    User ||--o{ Event : "performs"
+    
+    Issue {
+        string url
+        string creator
+        string state
+        string title
+        string text
+        int number
+        datetime created_date
+        datetime updated_date
+        string timeline_url
+    }
+    
+    User {
+        string username
+    }
+    
+    Label {
+        string name
+    }
+    
+    Event {
+        string event_type
+        string author
+        datetime event_date
+        string label
+        string comment
+    }
