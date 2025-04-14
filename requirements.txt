@@ -1,3 +1,5 @@
 python-dateutil
 pandas
 matplotlib
+numpy
+mplcyberpunk
