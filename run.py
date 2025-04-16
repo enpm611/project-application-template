@@ -10,6 +10,8 @@ import argparse
 import config
 from example_analysis import ExampleAnalysis
 from cycle_time_analysis import CycleTimeAnalysis
+from first_response_time_analysis import FirstResponseTimeAnalysis
+
 
 
 def parse_args():
@@ -53,6 +55,7 @@ elif args.feature == 1:
 elif args.feature == 2:
     pass # TODO call second analysis
 elif args.feature == 3:
-    pass # TODO call third analysis
+    FirstResponseTimeAnalysis().run()
+
 else:
     print('Need to specify which feature to run with --feature flag.')
