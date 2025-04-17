@@ -2,8 +2,8 @@
 import json
 from typing import List
 
-import config
-from model import Issue
+from config import config
+from models.model import Issue
 
 # Store issues as singleton to avoid reloads
 _ISSUES:List[Issue] = None
