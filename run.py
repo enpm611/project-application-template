@@ -11,6 +11,7 @@ import config
 from example_analysis import ExampleAnalysis
 from cycle_time_analysis import CycleTimeAnalysis
 from first_response_time_analysis import FirstResponseTimeAnalysis
+from resource_utilization_analysis import ResourceUtilizationAnalysis
 
 
 
@@ -53,7 +54,7 @@ if args.feature == 0:
 elif args.feature == 1:
     CycleTimeAnalysis().run() #call first analysis
 elif args.feature == 2:
-    pass # TODO call second analysis
+    ResourceUtilizationAnalysis().run() #call second analysis
 elif args.feature == 3:
     FirstResponseTimeAnalysis().run()
 
