@@ -34,7 +34,7 @@ def _get_default_path():
     operating systems.
     """
     basepath = os.getcwd()
-    filename = "config.json"
+    filename = "config/config.json"
     prev_path = None
     while (basepath != prev_path) and not os.path.isfile(os.path.abspath(os.path.join(basepath, filename))):
         prev_path = basepath

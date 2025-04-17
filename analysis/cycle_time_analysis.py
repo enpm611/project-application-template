@@ -2,13 +2,12 @@ import matplotlib.pyplot as plt
 import mplcursors  # For interactive hover tooltips
 import mplcyberpunk  # For a stylish Matplotlib theme
 import pandas as pd
-import numpy as np
 from typing import List
-from datetime import datetime
+import textwrap
 
-import config
-from data_loader import DataLoader
-from model import Issue, Event, State
+from config import config
+from Utils.data_loader import DataLoader
+from models.model import Issue, State
 
 
 class CycleTimeAnalysis:
@@ -92,7 +91,7 @@ class CycleTimeAnalysis:
             bins=30,
             edgecolor="white"
         )
-        plt.title("Histogram of Cycle Times (days)\nfor 'kind/bug' Issues (Closed)")
+        plt.title("Cycle Times For Closed\n'kind/bug' Issues")
         plt.xlabel("Cycle Time (days)")
         plt.ylabel("Count of Issues")
 
@@ -114,16 +113,30 @@ class CycleTimeAnalysis:
             sel.annotation.set_text(
                 f"Count: {c:.0f}\nRange: {left_edge:.1f} - {right_edge:.1f} days"
             )
+            sel.annotation.set_fontsize(10)
+            sel.annotation.get_bbox_patch().update(
+                {
+                    "fc": "#0d1b2acc",
+                    "ec": "#00ffe7",
+                    "lw": 1.2,
+                    "boxstyle": "round,pad=0.35"
+                }
+            )
 
         ################################################################
         # 7) Plot 2: Bar chart of top repeated bug groups
         ################################################################
-        plt.figure(figsize=(10, 6))
+        plt.figure(figsize=(12, 8))
         plt.bar(df_grouped["normalized_title"], df_grouped["count"], edgecolor="white")
         plt.title("Top Repeated Bug Titles (Naive Grouping)")
         plt.xlabel("Normalized Title")
         plt.ylabel("Count of Issues")
-        plt.xticks(rotation=45, ha="right")
+        # To wrap xticks into multi-line - start
+        wrap = lambda s, w=45: textwrap.fill(s, w)
+        labels = df_grouped["normalized_title"].apply(wrap) 
+        plt.xticks(ticks=range(len(labels)), labels=labels, rotation=10, ha="right")
+        # To wrap xticks into multi-line - end
+        plt.xticks(rotation=30, ha="right")
         plt.tight_layout()
         mplcyberpunk.add_glow_effects()
 

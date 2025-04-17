@@ -7,11 +7,11 @@ the command line to run the analyses.
 
 import argparse
 
-import config
-from example_analysis import ExampleAnalysis
-from cycle_time_analysis import CycleTimeAnalysis
-from first_response_time_analysis import FirstResponseTimeAnalysis
-from resource_utilization_analysis import ResourceUtilizationAnalysis
+from config import config
+from analysis.example_analysis import ExampleAnalysis
+from analysis.cycle_time_analysis import CycleTimeAnalysis
+from analysis.first_response_time_analysis import FirstResponseTimeAnalysis
+from analysis.top_twenty_analysis import TopTwentyAnalysis
 
 
 
@@ -54,7 +54,7 @@ if args.feature == 0:
 elif args.feature == 1:
     CycleTimeAnalysis().run() #call first analysis
 elif args.feature == 2:
-    ResourceUtilizationAnalysis().run() #call second analysis
+    TopTwentyAnalysis().run() #call second analysis
 elif args.feature == 3:
     FirstResponseTimeAnalysis().run()
 
