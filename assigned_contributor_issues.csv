@@ -1,0 +1,150 @@
+issue_number,title,creator,assignees
+9836,``poetry install`` doesn't add license files to ``dist-info`` directory,andreasdoll,Secrus
+9702,Poetry installed on Python 3.8 cannot install Python 3.7 venv,alienorlgrst,Secrus
+9680,Implement a `poetry report <command>` command or something similar for when filing issues,bmitc,Secrus
+9666,Suggest running with `--no-cache` before submitting a bug report,vit-zikmund,Secrus
+9646,Homepage doesn't show up on PyPI,notpushkin,Secrus
+9629,Add coverage report on testing,estepona,Secrus
+9481,pip install poetry not working due to latest version of cmake,shruti753,Secrus
+9470,"PermissionError during poetry lock when source is git, with virtualenvs.create=false",Alan-Chen99,Secrus
+9436,"Error: Invalid source ""pypi"" referenced in dependencies.",niderhoff,Secrus
+9390,Option to always create `src` folder when using `poetry new` command,Heus-Sueh,Secrus
+9368,Enable `poetry version postrelease` to create version numbers like 1.0.0post1,dfm-vmd,Secrus
+9366,"`poetry cache clear --all` Not enough arguments (missing: ""cache"")",brussee,Secrus
+9351,Poetry builds broken with PEP 517 error because of pyproject-hooks update on 4/29,mdagost,Secrus
+9321,feat: poetry env remove should display full path if using in-project virtualenvs,jonathanpv,Secrus
+9263,Parallelize removing deps in `poetry intall --sync`,adriangb,Secrus
+9249,Add truststore support to use system certificate store,nullSoup,Secrus
+8807,build-system.requires ignored for tool.poetry.build.script,cavedon,Secrus
+8699,`poetry build -C` prefixes directory twice,nishantjr,liortct
+8618,`poetry self update` fails for `pipx`-installed `poetry`,ilyagr,Secrus
+8566,The Windows path in the installation tutorial is incorrect.,brokedarius,Secrus
+8533,"**Opt-in** to ask confirmation before system changes, listing Venv and packages changes",pep-sanwer,Secrus
+8508,Add CITATION.cff to repository,tiboat,Secrus
+8441,feat: add well-known legal files to build result automatically,jkowalleck,Secrus
+8157,poetry should not prepend `sys.path` with `__vendor_site__`,mhils,Secrus
+8131,"""Basic Usage"" guide may include specific instructions for existing poetry projects",Zocker1999NET,Secrus
+8079,Custom Virtual Env Name Not used,jainal09,Secrus
+7940,Add support for publishing to PyPI with a trusted publisher,sisp,Secrus
+7723,poetry publish uses pyproject.toml instead of built artifacts for metadata,kapilt,Secrus
+7669,Support reading metadata from PEP 621 compliant pyproject.toml,ughstudios,Secrus
+7601,Document ability to set verbosity level through environment variable,benbariteau,Secrus
+7073,[Feature Request] `poetry init`  and `poetry new` could/should respect `virtualenvs.prefer-active-python` configuration option,david-vicente,finswimmer
+6934,Update tests to use `tmp_path` over `tmp_dir`,chadac,chadac
+6892,"poetry.script extras seems to be ignored, and scripts are always installed",willmcgugan,Secrus
+6857,Invalid author prevents package from being installed,eblis,Secrus
+6837,shebang for tool.poetry.scripts gets too long for scripts created for venv,jylind,Secrus
+6670,`poetry` doesn't seem to respect `poetry config certificates.pypi.cert false`. Getting `CERTIFICATE_VERIFY_FAILED`,brno32,Ninpo
+6201,Inconsistent Indentation in Lock File,Kurt-von-Laven,mkniewallner
+6153,Inconsistent Sort Direction in Lock File,Kurt-von-Laven,mkniewallner
+6152,Signal when cached dependency is used during installation,cperkulator,Secrus
+6075,Poetry may send credentials to a hacker controlled server,kamrup,Secrus
+5794,Creating new virtualenv fails with cryptic error for project with empty name,mlegner,Secrus
+5598,Incomplete error message in exception,ElricleNecro,vighnesh-kadam
+5526,Mixing POETRY_HTTP_BASIC_  env vars with CLI args does not work on poetry publish,dszakallas,Secrus
+5411,poetry show gives a RunTimeError when not in the right directory,ergut,branchvincent
+5240,"poetry show gives clickit ""NoSuchOptionException(name)"" error",swills1,branchvincent
+5219,Cannot install poetry with private PyPI mirror,rittneje,Secrus
+5165,poetry add | ModuleNotFoundError: No module named 'copier',danielbellhv,Secrus
+5046,Poetry version 1.1.12 is still the version installed after upgrading to 1.2.0a2,motin,finswimmer
+5000,``poetry new`` fails when creating a new system environment,yngvem,neersighted
+4711,Exclude Include combination gives wrong results,nylocx,finswimmer
+4667,Poetry init OSError on windows 10,NujanZh,neersighted
+4632,Poetry uninstalls all dependencies when removing any dependency via `poetry remove`,provinzkraut,finswimmer
+4438,`poetry cache clear` should be able to clear all information for a single package,binh-vu,Secrus
+3870,Poetry from `install-poetry.py` does not install packages to system Python even with `POETRY_VIRTUALENVS_CREATE=0`,ruohola,sdispater
+3649,poetry unable to install hbmqtt,FlorianLudwig,finswimmer
+3643,tool.poetry.scripts fails because of a space in path to env,mklengel,Secrus
+3577,--short has no effect when `poetry version` is passed a new version,sprt,sprt
+3531,Poetry-Built Wheel Timestamps Pinned to 1980 and 2016,mattsta,Secrus
+3437,Packages can only contain one destination per file,jonapich,Secrus
+3416,Expose stable Python API,thejcannon,Secrus
+3346,{cache-dir}/virtualenvs may be too volatile a storage location for some users,hwalinga,Secrus
+3265,Poetry can't run scripts from dependencies (which themselves use poetry) installed as editable on Windows,kevincon,kevincon
+3236,Organization: _get_validator function is not used inside the project,GabrielSimonetto,Coquinho
+3132,Resolving pdfminer-six depedency causes infinite loop,tomlaube,sdispater
+3010,Potential thread safety issue under certain environments: Incorrectly nested style tag found,abn,sdispater
+3004,"Rename ""develop"" option to ""editable""",abn,Secrus
+2983,Pull in pep517 high-level interfaces into poetry codebase,abn,abn
+2980,parsing issue when we have extras with poetry add,ycd,finswimmer
+2965,Can not load package data resources when running in a zipapp,sinoroc,Secrus
+2950,1.1.0b3: Regression in handling python version constraints when running add/update,abn,sdispater
+2942,Poetry 1.1.0b3 fails to self update,albireox,finswimmer
+2910,poetry build not respecting git's ignore patterns when `-f` is specified,skgbanga,finswimmer
+2863,pre-commit hooks to always be sync after a git checkout,tetienne,alsmnn
+2803,search has no --only-name (-N) option,bphunter1972,finswimmer
+2802,"`poetry build` creates package with platform marker not parseable: `pkg_resources.RequirementParseError: Invalid requirement, parse error at ""'sys_plat'""`",daniel-j-h,finswimmer
+2737,Tilde operator (`~=`) in dependencies fails silently in 1.1.0b2,ewjoachim,sdispater
+2604,Poetry 1.1.0a2 SolverProblemError: Failure to resolve dependencies when environment markers are used,hukkin,sdispater
+2603,Poetry 1.1.0a2 PackageInfoError,aviramha,abn
+2569,Add information on the different ways to specify a package in to the help section.,dgnsrekt,dgnsrekt
+2565,Pip local install (via PEP 517) fails if a folder named LICENSES is present in the source code,MrJohz,MrJohz
+2452,Implement PEP-610,sdispater,sdispater
+2440,UX: `poetry install` lists own project as 'installed' ,mgrandi,finswimmer
+2435,poetry run script doesn't run the actual executable script,k4ml,logan-bobo
+2358,poetry init - should probably not allow negative numbers for package selection,asottile,bhaveshpraveen
+2290,Add the ability to specify the version of the package during the build,SailingYYC,sdispater
+2248,Poetry add fails if there is a mercurial repo in src,tiktuk,finswimmer
+2207,Enhancing the virtual environment usage for 'poetry run' command,meakbiyik,sdispater
+2184,Enable offline installations: poetry install --download-only; poetry install --offline,jabozzo,Secrus
+2357,Optional dependencies are generated as required in wheel,cutwater,Secrus
+2115,"""Unable to detect the current shell."" when running Vagrant command",ghost,finswimmer
+2110,source repository broken in poetry 1.0.4,mbelang,sdispater
+2093,cannot import name create_environment with virtualenv >= 20,cjw296,finswimmer
+2062,Poetry cannot properly parse URL with Gitlab [deploy tokens],xinbinhuang,finswimmer
+2038,"[AttributeError] ""Call"" object has no attribute ""id""",prakashjayy,finswimmer
+2004,'ë' in author name raise an error during `poetry install`,raphaelyancey,raphaelyancey
+1993,Lightweight core library,sdispater,sdispater
+1992,Bundle command,sdispater,sdispater
+1985,AssertionError from poetry add Naked,shangxiao,sdispater
+1946,"Exception on poetry build, incorrect gitignore handling logic.",kawing-chiu,finswimmer
+1931,Parsing of Wheel version from PEP508 url does not completely extract version number,edwardgeorge,edwardgeorge
+1906,Display why package was installed,shenek,shenek
+2353,Including tests dir in sdist breaks install,TheErk,kasteph
+1902,Regular expression catastrophic backtracking in Git URL parsing,mschwager,finswimmer
+1816,add `develop` option for git dependencies,shenek,shenek
+1798,"""poetry list"" is not defined",michaelaye,finswimmer
+1770,About environment mangement and .venv folder,squirrel532,finswimmer
+1761,Install git: Setup.py Parsing,duichwer,finswimmer
+1757,Relative path imports are resolved relative to CWD instead of pyproject.toml,swist,"sdispater, finswimmer"
+1746,Adding git dependency from subproject failes,finswimmer,finswimmer
+1739,Report actual pyproject.toml error text in event of InvalidRequirement error,shintoo,Secrus
+1735,The specified Python version (3.8) is not supported by the project (^3.7).,jobevers,sdispater
+1697,Github SSH String and SdistBuilder Incompatible,wakemaster39,finswimmer
+1689,Installing directory poetry package with dependencies in secondary source fails,wakemaster39,finswimmer
+1639,'poetry init' should use existing pyproject.toml file,dekoza,finswimmer
+1612,All dependencies are always updated,wylee,sdispater
+1611,"Unsolicited messages output to stdout, --quiet does not do anything",rdaysky,sdispater
+1609,Extras of a dependency's dependency are not installed,hukkin,sdispater
+1597,Exclude is not respected when building package.,mhozza,finswimmer
+1590,Parseable format for `poetry version`,pgilad,finswimmer
+1581,Please submit poetry as proposal for pip 2020 RfP,dekoza,sdispater
+1566,poetry v1.0.0b4 breaks on zip packages,garyd203,sdispater
+1396,SSL certificate on poetry.eustace.io expired,mrshu,sdispater
+1394,Downgrading says it's updating,im-n1,Secrus
+1389,Managing semver vs pep440,bersace,"sdispater, brycedrennan, kasteph"
+1379,tool.poetry.packages handles wildcards * and ** incorrectly in pyproject.toml,geryogam,kasteph
+1336,Include exclude globs with whitelist pattern,dpgaspar,finswimmer
+1328,"Period(s) in repository ""name"" causes issues",Caligatio,Secrus
+1293,poetry export --extras does not export sub-dependencies,tommilligan,tommilligan
+1238,Maximum recursion depth exceeded,barrachri,sdispater
+1214,Install globally with --user,raxod502,richin13
+1208,Add ability to append build number to version identifier at build time,TheFriendlyCoder,sdispater
+1009,SDist builds incorrectly auto detects subpackages of excluded files/directories,johnslemmer,finswimmer
+991,Poetry cant resolve with git dependency,mozartilize,sdispater
+965,RunCommand incorrectly sets sys.argv for Poetry scripts,chdsbd,chdsbd
+897,export requirements.txt - local dependency file exported as editable,visciang,finswimmer
+755,Dependency rooted in a subfolder of a GIT repository,sandrinr,finswimmer
+707,Poetry `add` and `init` can create incompatible settings in pyproject.toml,nottrobin,Secrus
+693,[Discussion] Poetry to provide a decent hook-based plugin system,webknjaz,sdispater
+621,Add a way to set a fixed Python version for a project,sdispater,sdispater
+537,Feature Request: poetry deploy,digitalresistor,sdispater
+536,Poetry 0.12.3 uses Python 2.7.10 despite specifying 3.7.0,maxcountryman,sdispater
+520,Poetry fails to install p4python due to read-only files,epage,epage
+477,Conda has a good solver to properly resolve dependencies in Python (and any other language ecosystem),mingwandroid,kasteph
+342,Improve the installation of Poetry,sdispater,sdispater
+310,`poetry init` should accept the long license name in addition to the abbreviation,nchammas,sdispater
+286,"If .venv is an empty directory, poetry installs dependencies globally",jacebrowning,finswimmer
+280,"Default README format to Markdown in ""new""?",taion,finswimmer
+236,Adding a package with the same name as your local package results in an AssertionError,jaroel,avirlrma
+105,Conda compatibility,extraymond,sdispater
