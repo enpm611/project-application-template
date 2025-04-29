@@ -129,19 +129,8 @@ Example output pie charts for different labels distribution:
 ├── fetch_issues/
 │   └── fetch_issues.py
 │   └── poetry_data.json
-├── fetch_issues/
-│   └── feature1_input1.png
-│   └── feature1_input2.png
-│   └── feature1_chart_issuelifespan.png
-│   └── feature1_chart_contributors.png
-│   └── feature1_chart_comments.png
-│   └── feature2_chart_top15_comments.png
-│   └── feature2_chart_areaLabelPerYear.png
-│   └── feature2_chart_bugTrend.png
-│   └── feature2_chart_featureTrend.png
-│   └── feature3_pie_kindLabel.png
-│   └── feature3_pie_statusLabel.png
-│   └── feature3_pie_areaLabel.png
+├── tests/
+├── assets/
 ├── analysis_one.py
 ├── config.py
 ├── config.json
@@ -154,6 +143,14 @@ Example output pie charts for different labels distribution:
 ├── run.py
 └── README.md
 ```
+
+## Testing
+python -m coverage run -m unittest discover -s tests
+
+python -m coverage report --omit="test_*"
+
+coverage html  --omit="test_*"
+
 
 ## App Functionality
 The parser implements these functions:

@@ -1,282 +1,151 @@
 import unittest
 from unittest.mock import patch, MagicMock
-import datetime
 import sys
 import os
 
 sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 
 from analysis_one import AnalysisOne
-from model import Issue, Event
+from model import Issue
 
-class TestAnalysisOne(unittest.TestCase):
+class BaseTestAnalysisOne(unittest.TestCase):
     def setUp(self):
-        # Create mock Issues
-        issue_data = {
+        self.sample_issue = {
             "number": 1,
-            "title": "Test Issue 1",
+            "title": "Test Issue",
             "state": "closed",
             "creator": "user1",
             "labels": ["bug"],
             "created_date": "2022-01-01T00:00:00Z",
             "closed_date": "2022-01-02T00:00:00Z",
             "events": [
-                {
-                    "event_type": "commented",
-                    "author": "user2",
-                    "event_date": "2022-01-01T12:00:00Z"
-                },
-                {
-                    "event_type": "closed",
-                    "author": "user1",
-                    "event_date": "2022-01-02T00:00:00Z"
-                }
-            ]
-        }
-        self.mock_issues = [Issue(issue_data)]
-
-#region Basic sanity checks
-    # ❎ Empty issues list (4/29: failed)
-    @patch('data_loader.DataLoader.get_issues')
-    def test_run_analysis_empty_issues(self, mock_get_issues):
-        mock_get_issues.return_value = []
-        analysis = AnalysisOne()
-        try:
-            with patch('builtins.input', return_value='all'):
-                analysis.run()
-        except Exception as e:
-            self.fail(f"LabelPieChartAnalysis.run() failed with empty issues: {e}")
-
-    
-    # ❎ No labels present (4/29: failed)
-    @patch('data_loader.DataLoader.get_issues')
-    def test_run_analysis_no_labels(self, mock_get_issues):
-        issue_data = {
-            "number": 1,
-            "title": "Test Issue 1",
-            "state": "closed",
-            "creator": "user1",
-            "labels": [],
-            "created_date": "2022-01-01T00:00:00Z",
-            "closed_date": "2022-01-02T00:00:00Z",
-            "events": [
-                {
-                    "event_type": "commented",
-                    "author": "user2",
-                    "event_date": "2022-01-01T12:00:00Z"
-                },
-                {
-                    "event_type": "closed",
-                    "author": "user1",
-                    "event_date": "2022-01-02T00:00:00Z"
-                }
+                {"event_type": "commented", "author": "user2", "event_date": "2022-01-01T12:00:00Z"},
+                {"event_type": "closed", "author": "user1", "event_date": "2022-01-02T00:00:00Z"}
             ]
         }
 
-        mock_get_issues.return_value = [Issue(issue_data)]
-
+    def _run_analysis(self, issues, user_input="all"):
         analysis = AnalysisOne()
-        try:
-            with patch('builtins.input', return_value='all'):
+        with patch('data_loader.DataLoader.get_issues', return_value=issues):
+            with patch('builtins.input', return_value=user_input):
                 analysis.run()
-        except Exception as e:
-            self.fail(f"AnalysisOne.run() raised an exception: {e}")
-#endregion
 
-#region Label grouping and statistics - Makes sure the analysis works as intended
-    # ✅ Check that multiple issues with the same label are grouped
-    @patch('data_loader.DataLoader.get_issues')
-    def test_run_analysis_correct_grouping_by_label(self, mock_get_issues):
-        issue_data = [{
-            "number": 1,
-            "title": "Test Issue 1",
-            "state": "closed",
-            "creator": "user1",
-            "labels": ["bug"],
-            "created_date": "2022-01-01T00:00:00Z",
-            "closed_date": "2022-01-03T00:00:00Z",
-            "events": [
-                {
-                    "event_type": "commented",
-                    "author": "user2",
-                    "event_date": "2022-01-01T12:00:00Z"
-                },
-                {
-                    "event_type": "closed",
-                    "author": "user1",
-                    "event_date": "2022-01-02T00:00:00Z"
-                }
-            ]
-        },
-        {
-            "number": 2,
-            "title": "Test Issue 2",
-            "state": "closed",
-            "creator": "user1",
-            "labels": ["bug"],
-            "created_date": "2022-01-01T00:00:00Z",
-            "closed_date": "2022-01-02T00:00:00Z",
-            "events": [
-                {
-                    "event_type": "commented",
-                    "author": "user2",
-                    "event_date": "2022-01-01T12:00:00Z"
-                },
-                {
-                    "event_type": "closed",
-                    "author": "user1",
-                    "event_date": "2022-01-02T00:00:00Z"
-                }
-            ]
-        }]
 
-        mock_get_issues.return_value = [Issue(data) for data in issue_data]
+class TestBasicSanity(BaseTestAnalysisOne):
 
-        analysis = AnalysisOne()
+    def test_empty_issues_should_not_raise(self):
         try:
-            with patch('builtins.input', return_value='all'):
-                analysis.run()
+            self._run_analysis([])
         except Exception as e:
-            self.fail(f"AnalysisOne.run() raised an exception: {e}")
+            self.fail(f"Should not raise with empty issue list: {e}")
 
-    # ✅ Ensure it only counts events where event_type == "commented"
-    @patch('data_loader.DataLoader.get_issues')
-    def test_run_analysis_comment_counting(self, mock_get_issues):
-        issue_data = {
-            "number": 1,
-            "title": "Test Issue 1",
-            "state": "closed",
-            "creator": "user1",
-            "labels": ["bug"],
-            "created_date": "2022-01-01T00:00:00Z",
-            "closed_date": "2022-01-03T00:00:00Z",
-            "events": [
-                {
-                    "event_type": "commented",
-                    "author": "user2",
-                    "event_date": "2022-01-01T12:00:00Z"
-                },
-                {
-                    "event_type": "commented",
-                    "author": "user1",
-                    "event_date": "2022-01-02T00:00:00Z"
-                }
-            ]
-        }
-        mock_get_issues.return_value = [Issue(issue_data)]
-
-        analysis = AnalysisOne()
+    def test_no_labels_should_not_raise(self):
+        issue = self.sample_issue.copy()
+        issue["labels"] = []
         try:
-            with patch('builtins.input', return_value='all'):
-                analysis.run()
+            self._run_analysis([Issue(issue)])
         except Exception as e:
-            self.fail(f"AnalysisOne.run() raised an exception: {e}")
-#endregion
+            self.fail(f"Should not raise with no labels: {e}")
 
-#region Edge cases
-    # ❎ Ensure lifespan is set to None if dates are missing (4/29: failed)
-    @patch('data_loader.DataLoader.get_issues')
-    def test_run_analysis_issues_with_missing_dates(self, mock_get_issues):
-        issue_data = {
-            "number": 1,
-            "title": "Test Issue 1",
-            "state": "closed",
-            "creator": "user1",
-            "labels": ["bug"],
-            "created_date": None,
-            "closed_date": None,
-            "events": [
-                {
-                    "event_type": "commented",
-                    "author": "user1",
-                    "event_date": "2022-01-01T12:00:00Z"
-                }
-            ]
-        }
-        mock_get_issues.return_value = [Issue(issue_data)]
 
-        analysis = AnalysisOne()
+class TestLabelGrouping(BaseTestAnalysisOne):
+
+    def test_issues_with_same_label_are_grouped(self):
+        issue1 = self.sample_issue.copy()
+        issue2 = self.sample_issue.copy()
+        issue2["number"] = 2
         try:
-            with patch('builtins.input', return_value='all'):
-                analysis.run()
+            self._run_analysis([Issue(issue1), Issue(issue2)])
         except Exception as e:
-            self.fail(f"AnalysisOne.run() raised an exception: {e}")
+            self.fail(f"Should not raise when grouping labels: {e}")
 
-    # ✅ Make sure contributor and comment counts don’t crash on empty
-    @patch('data_loader.DataLoader.get_issues')
-    def test_run_analysis_issues_with_no_events(self, mock_get_issues):
-        issue_data = {
-            "number": 1,
-            "title": "Test Issue 1",
-            "state": "closed",
-            "creator": "user1",
-            "labels": ["bug"],
-            "created_date": "2022-01-01T00:00:00Z",
-            "closed_date": "2022-01-03T00:00:00Z",
-            "events": []
-        }
-        mock_get_issues.return_value = [Issue(issue_data)]
-
-        analysis = AnalysisOne()
+    def test_only_commented_events_are_counted(self):
+        issue = self.sample_issue.copy()
+        issue["events"] = [
+            {"event_type": "commented", "author": "user1", "event_date": "2022-01-01T12:00:00Z"},
+            {"event_type": "commented", "author": "user2", "event_date": "2022-01-01T13:00:00Z"},
+            {"event_type": "closed", "author": "user1", "event_date": "2022-01-02T00:00:00Z"},
+        ]
         try:
-            with patch('builtins.input', return_value='all'):
-                analysis.run()
+            self._run_analysis([Issue(issue)])
         except Exception as e:
-            self.fail(f"AnalysisOne.run() raised an exception: {e}")
+            self.fail(f"Should not raise on comment counting: {e}")
 
-    # ✅ Check contributor deduplication works
-    @patch('data_loader.DataLoader.get_issues')
-    def test_run_analysis_issues_with_duplicate_contributors(self, mock_get_issues):
-        issue_data = {
-            "number": 1,
-            "title": "Test Issue 1",
-            "state": "closed",
-            "creator": "user1",
-            "labels": ["bug"],
-            "created_date": "2022-01-01T00:00:00Z",
-            "closed_date": "2022-01-03T00:00:00Z",
-            "events": [
-                {
-                    "event_type": "commented",
-                    "author": "user1",
-                    "event_date": "2022-01-01T12:00:00Z"
-                },
-                {
-                    "event_type": "commented",
-                    "author": "user1",
-                    "event_date": "2022-01-02T00:00:00Z"
-                }
-            ]
-        }
-        mock_get_issues.return_value = [Issue(issue_data)]
 
-        analysis = AnalysisOne()
+class TestEdgeCases(BaseTestAnalysisOne):
+
+    def test_missing_dates_should_not_crash(self):
+        issue = self.sample_issue.copy()
+        issue["created_date"] = None
+        issue["closed_date"] = None
         try:
-            with patch('builtins.input', return_value='all'):
-                analysis.run()
+            self._run_analysis([Issue(issue)])
         except Exception as e:
-            self.fail(f"AnalysisOne.run() raised an exception: {e}")
-#endregion
+            self.fail(f"Should handle missing dates: {e}")
 
-#region Check user input
-    # ✅ Check input works
-    @patch('builtins.input', return_value='all')
+    def test_no_events_should_not_crash(self):
+        issue = self.sample_issue.copy()
+        issue["events"] = []
+        try:
+            self._run_analysis([Issue(issue)])
+        except Exception as e:
+            self.fail(f"Should not raise with no events: {e}")
+
+    def test_duplicate_contributors_are_deduplicated(self):
+        issue = self.sample_issue.copy()
+        issue["events"] = [
+            {"event_type": "commented", "author": "user1", "event_date": "2022-01-01T12:00:00Z"},
+            {"event_type": "commented", "author": "user1", "event_date": "2022-01-01T13:00:00Z"},
+        ]
+        try:
+            self._run_analysis([Issue(issue)])
+        except Exception as e:
+            self.fail(f"Should deduplicate contributors safely: {e}")
+
+
+class TestUserInputAndPlotting(BaseTestAnalysisOne):
+
     @patch('matplotlib.pyplot.show')
-    @patch('data_loader.DataLoader.get_issues')
-    def test_plotting_triggered_on_all_input(self, mock_get_issues, mock_show, mock_input):
-        mock_get_issues.return_value = self.mock_issues  # Assumes self.mock_issues is defined in setUp()
-
-        analysis = AnalysisOne()
-
+    def test_plotting_triggered_on_all_input(self, mock_show):
         try:
-            analysis.run()
-
-            # Check if plotting was attempted
+            self._run_analysis([Issue(self.sample_issue)], user_input="all")
             self.assertTrue(mock_show.called)
             self.assertGreaterEqual(mock_show.call_count, 1)
         except Exception as e:
-            self.fail(f"AnalysisOne.run() raised an exception: {e}")
-#endregion
+            self.fail(f"Should not raise and must attempt to plot: {e}")
+
+    def test_label_input_filters_correctly(self):
+        issue_bug = self.sample_issue.copy()
+        issue_feature = self.sample_issue.copy()
+        issue_feature["number"] = 2
+        issue_feature["labels"] = ["feature"]
+
+        with patch('builtins.print') as mock_print:
+            self._run_analysis([Issue(issue_bug), Issue(issue_feature)], user_input="bug")
+            printed_output = "\n".join(str(call) for call in mock_print.call_args_list)
+            self.assertIn("bug", printed_output)
+            self.assertNotIn("feature", printed_output)
+
+
+class TestDataValidation(BaseTestAnalysisOne):
+
+    def test_lifespan_and_comment_averages_are_computed_correctly(self):
+        issue1 = self.sample_issue.copy()
+        issue2 = self.sample_issue.copy()
+        issue2["number"] = 2
+        issue2["created_date"] = "2022-01-01T00:00:00Z"
+        issue2["closed_date"] = "2022-01-03T00:00:00Z"
+        issue2["events"] = [
+            {"event_type": "commented", "author": "user3", "event_date": "2022-01-02T00:00:00Z"}
+        ]
+
+        with patch('builtins.print') as mock_print:
+            self._run_analysis([Issue(issue1), Issue(issue2)], user_input="bug")
+            output = "\n".join(str(call) for call in mock_print.call_args_list)
+            self.assertIn("avg_lifespan_hours", output)
+            self.assertIn("avg_comments", output)
+            self.assertIn("num_contributors", output)
+
 
 if __name__ == '__main__':
     unittest.main()
