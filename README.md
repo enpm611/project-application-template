@@ -130,7 +130,23 @@ Example output pie charts for different labels distribution:
 │   └── fetch_issues.py
 │   └── poetry_data.json
 ├── tests/
+│   └── test_anaylsis_one.py
+│   └── test_config.py
+│   └── test_feature2.py
+│   └── test_pieChart_Labels.py
 ├── assets/
+│   └── feature1_chart_comments.png
+│   └── feature1_input1.png
+│   └── feature1_chart_contributors.png
+│   └── feature1_input2.png
+│   └── feature1_chart_issuelifespan.png
+│   └── feature2_chart_bugTrend.png
+│   └── feature2_chart_featureTrend.png
+│   └── feature2_chart_areaLabelPerYear.png
+│   └── feature2_chart_top15_comments.png
+│   └── feature3_pie_areaLabel.png
+│   └── feature3_pie_kindLabel.png
+│   └── feature3_pie_statusLabel.png
 ├── analysis_one.py
 ├── config.py
 ├── config.json
