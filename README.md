@@ -161,11 +161,19 @@ Example output pie charts for different labels distribution:
 ```
 
 ## Testing
-python -m coverage run -m unittest discover -s tests
 
-python -m coverage report --omit="test_*"
-
-coverage html  --omit="test_*"
+1. **Run all test cases**:
+   ```bash
+   python -m coverage run -m unittest discover -s tests
+   ```
+2. **Get coverage report in terminal**:
+   ```bash
+   python -m coverage report --omit="test_*"
+   ```
+3. **Get detailed HTML coverage report**:
+   ```bash
+   coverage html  --omit="test_*"
+   ```
 
 
 ## App Functionality
