@@ -174,7 +174,7 @@ Example output pie charts for different labels distribution:
    ```bash
    coverage html  --omit="test_*"
    ```
-# `analysis_one.py`
+### `analysis_one.py`
 
 - Unit tests were written to verify label grouping, issue lifespan calculation, comment counting, user input handling, and plotting logic.
 - Tests include edge cases such as:
@@ -182,7 +182,7 @@ Example output pie charts for different labels distribution:
   - Issues without labels
   - Issues missing date fields
   - Issues with no events
-- *Test results revealed four failures*, exposing real issues in the code:
+- **Test results revealed four failures**, exposing real issues in the code:
   - `KeyError: 'avg_lifespan_hours'` when sorting or plotting an empty DataFrame.
   - `IndexError` during plotting when no data is available due to missing dates.
   - Label filtering test fails because non-matching labels still appear in printed output.
