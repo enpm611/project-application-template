@@ -1,0 +1,12 @@
+python -m coverage report --omit="test_*.py"
+Name                         Stmts   Miss  Cover
+------------------------------------------------
+gui/flexible_bucket_gui.py      87      3    97%
+scripts/label_count.py          25      0   100%
+scripts/user_issues.py          27      0   100%
+utils/data_extractors.py        35      0   100%
+utils/json_utils.py             12      0   100%
+utils/logging_utils.py           3      0   100%
+utils/plot_utils.py             25      8    68%
+------------------------------------------------
+TOTAL                          214     11    95%

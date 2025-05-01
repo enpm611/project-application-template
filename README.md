@@ -8,7 +8,7 @@ This project is a Python-based application designed to fetch, analyze, and visua
 
 ```
 project-application-template/
-├──config
+├──config                  # JSON config and loader
 │   ├── config.json
 │   ├── config.py
 │ 
@@ -29,7 +29,7 @@ project-application-template/
 ├── gui/                   # Optional GUI component using tkinter
 │   └── flexible_bucket_gui.py
 │
-├── models/                   # Optional GUI component using tkinter
+├── models/                # Store Data models
 │   └── model.py
 │
 ├── results/               # Analysis output (graphs)
@@ -73,7 +73,8 @@ project-application-template/
 
 ```bash
 python -m venv venv
-source venv/bin/activate  # or .\venv\Scripts\activate on Windows
+source venv/bin/activate  # for MacOS
+source venv/Scripts/activate  # for Windows
 pip install -r docs/requirements.txt
 ```
 
