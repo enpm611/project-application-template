@@ -27,7 +27,10 @@
     "workbench.colorCustomizations": {
         "tab.activeBorder": "#ff0000",
         "tab.unfocusedActiveBorder": "#000000",
-        "tab.activeBackground": "#045980"
+        "tab.activeBackground": "#045980",
+        "activityBar.background": "#550C4A",
+        "titleBar.activeBackground": "#771068",
+        "titleBar.activeForeground": "#FFFBFE"
     },
     "workbench.editor.wrapTabs": true,
     "debug.toolBarLocation": "docked",
