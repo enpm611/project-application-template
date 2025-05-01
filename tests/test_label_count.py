@@ -1,4 +1,7 @@
 import unittest
+import os
+import json
+from utils.json_utils import load_json
 from unittest.mock import patch
 
 from scripts import label_count
@@ -92,6 +95,30 @@ class TestLabelCountRun(unittest.TestCase):
         mock_logger.error.assert_called_once()
         self.assertIn("Invalid JSON", str(mock_logger.error.call_args))
 
+class TestJsonUtils(unittest.TestCase):
+
+    def setUp(self):
+        os.makedirs("data", exist_ok=True)
+        with open("data/valid_test.json", "w") as f:
+            json.dump({"key": "value"}, f)
+        with open("data/invalid_test.json", "w") as f:
+            f.write("{ invalid json ")
+
+    def tearDown(self):
+        os.remove("data/valid_test.json")
+        os.remove("data/invalid_test.json")
+
+    def test_load_valid_json(self):
+        data = load_json("valid_test.json")
+        self.assertEqual(data, {"key": "value"})
+
+    def test_file_not_found(self):
+        with self.assertRaises(FileNotFoundError):
+            load_json("nonexistent.json")
+
+    def test_invalid_json(self):
+        with self.assertRaises(ValueError):
+            load_json("invalid_test.json")
 
 if __name__ == "__main__":
     unittest.main()

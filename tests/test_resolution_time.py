@@ -1,6 +1,8 @@
 import unittest
 from unittest.mock import MagicMock, patch
 import math
+import os
+import sys
 import tkinter as tk
 import matplotlib
 matplotlib.use("Agg")
@@ -196,6 +198,10 @@ class TestPlotUtils(unittest.TestCase):
 
     @patch("utils.plot_utils.FigureCanvasTkAgg")
     def test_gui_bar_chart(self, mock_canvas_class):
+        # Skip if DISPLAY is not set AND running in CI or Linux (headless)
+        if (os.environ.get("DISPLAY") is None or os.environ.get("CI") == "true") and sys.platform != "darwin":
+            self.skipTest("Skipping GUI test in headless environment")
+
         mock_canvas_instance = mock_canvas_class.return_value
         mock_canvas_instance.get_tk_widget.return_value = MagicMock()
 

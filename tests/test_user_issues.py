@@ -1,6 +1,6 @@
 import unittest
 from unittest.mock import patch, MagicMock
-import scripts.user_issues  # Your main file with run()
+import scripts.user_issues
 
 
 class TestUserIssues(unittest.TestCase):
