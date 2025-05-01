@@ -90,22 +90,6 @@ This script uses GitHub's API to pull issues and saves them as `poetry.json`.
 
 ---
 
-Perfect — here's how to cleanly incorporate the missing pieces (**`utils/`** and **`gui/flexible_bucket_gui.py`**) into your README right **after the “📤 Data Collection”** section:
-
----
-
-### 📤 Data Collection
-
-To extract GitHub issues and store them as JSON:
-
-```bash
-python scripts/scraping_issues.py
-```
-
-This script uses GitHub's API to pull issues and saves them as `poetry.json`.
-
----
-
 ### 🧰 Utility Modules
 
 Located in: `utils/`
