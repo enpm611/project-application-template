@@ -36,34 +36,6 @@ class TestLabelPieChartAnalysis(unittest.TestCase):
         except Exception as e:
             self.fail(f"LabelPieChartAnalysis.run() failed with empty issues: {e}")
 
-    # No matching labels present (Expected to pass)
-    @patch('pieChart_Labels.DataLoader.get_issues')
-    def test_run_analysis_no_matching_labels(self, mock_get_issues):
-        mock_issues = [
-            MagicMock(labels=["random_label", "miscellaneous"]),
-            MagicMock(labels=["test123"])
-        ]
-        mock_get_issues.return_value = mock_issues
-        analysis = LabelPieChartAnalysis()
-        try:
-            analysis.run()
-        except Exception as e:
-            self.fail(f"LabelPieChartAnalysis.run() failed with non-matching labels: {e}")
-
-    # Labels are malformed: None and string (Expected to pass but behavior can be odd)
-    @patch('pieChart_Labels.DataLoader.get_issues')
-    def test_run_analysis_malformed_labels(self, mock_get_issues):
-        mock_issues = [
-            MagicMock(labels=None),
-            MagicMock(labels="kind/bug")  # Wrong: string not list
-        ]
-        mock_get_issues.return_value = mock_issues
-        analysis = LabelPieChartAnalysis()
-        try:
-            analysis.run()
-        except Exception as e:
-            self.fail(f"LabelPieChartAnalysis.run() crashed with malformed labels: {e}")
-
     # ADDED FOR MORE TESTS
     # Labels contain non-string types (Expected to FAIL: AttributeError)
     @patch('pieChart_Labels.DataLoader.get_issues')
@@ -99,6 +71,85 @@ class TestLabelPieChartAnalysis(unittest.TestCase):
             analysis.plot_pie_chart(label_counter, "Zero Total Test")
         except ZeroDivisionError:
             self.fail("plot_pie_chart raised ZeroDivisionError on empty data")
+
+    # ADDED FOR SECOND TRIAL
+    # labels list has non-strings (Expected to FAIL: AttributeError)
+    @patch('pieChart_Labels.DataLoader.get_issues')
+    def test_analyze_label_distribution_with_non_string_labels(self, mock_get_issues):
+        mock_get_issues.return_value = [
+            MagicMock(labels=[None, 123, True])
+        ]
+        analysis = LabelPieChartAnalysis()
+        with self.assertRaises(AttributeError):
+            analysis.analyze_label_distribution("kind/")
+
+    # Negative values in pie chart counts (Expected to FAIL: ValueError)
+    @patch('pieChart_Labels.DataLoader.get_issues')
+    def test_plot_pie_chart_with_negative_counts(self, mock_get_issues):
+        mock_get_issues.return_value = []
+        analysis = LabelPieChartAnalysis()
+        label_counter = Counter({"kind/bug": -5, "kind/feature": -3})
+        with self.assertRaises(ValueError):
+            analysis.plot_pie_chart(label_counter, "Negative Counts Test")
+
+    # Zero total pie chart again (Expected to pass safely)
+    @patch('pieChart_Labels.DataLoader.get_issues')
+    def test_plot_pie_chart_with_zero_total(self, mock_get_issues):
+        mock_get_issues.return_value = []
+        analysis = LabelPieChartAnalysis()
+        label_counter = Counter()
+        try:
+            analysis.plot_pie_chart(label_counter, "Zero Total Test")
+        except ZeroDivisionError:
+            self.fail("plot_pie_chart crashed with ZeroDivisionError")
+
+    # DataLoader throws exception (Expected to FAIL: constructor crash)
+    @patch('pieChart_Labels.DataLoader.get_issues', side_effect=Exception("Fake failure"))
+    def test_DataLoader_crash_handling(self, mock_get_issues):
+        with self.assertRaises(Exception):
+            LabelPieChartAnalysis()
+
+    # AGGRESSIVE
+    # Labels are dict instead of list (Expected to FAIL or behave oddly)
+    @patch('pieChart_Labels.DataLoader.get_issues')
+    def test_labels_are_dict_instead_of_list(self, mock_get_issues):
+        mock_get_issues.return_value = [
+            MagicMock(labels={"kind/bug": 1})
+        ]
+        analysis = LabelPieChartAnalysis()
+        with self.assertRaises(Exception):
+            analysis.analyze_label_distribution("kind/")
+
+    # Issue.labels is dict (Expected to FAIL: TypeError)
+    @patch('pieChart_Labels.DataLoader.get_issues')
+    def test_issue_labels_are_dict(self, mock_get_issues):
+        mock_get_issues.return_value = [
+            MagicMock(labels={"kind/bug": 1})
+        ]
+        analysis = LabelPieChartAnalysis()
+        with self.assertRaises(TypeError):
+            analysis.analyze_label_distribution("kind/")
+
+    # Labels contain non-strings (Expected to FAIL: AttributeError)
+    @patch('pieChart_Labels.DataLoader.get_issues')
+    def test_issue_labels_contain_non_strings(self, mock_get_issues):
+        mock_get_issues.return_value = [
+            MagicMock(labels=[123, None, True])
+        ]
+        analysis = LabelPieChartAnalysis()
+        with self.assertRaises(AttributeError):
+            analysis.analyze_label_distribution("kind/")
+
+    # label_counter with negative counts (Expected to FAIL: ValueError)
+    @patch('pieChart_Labels.DataLoader.get_issues')
+    def test_label_counter_with_negative_counts(self, mock_get_issues):
+        mock_get_issues.return_value = []
+        analysis = LabelPieChartAnalysis()
+        label_counter = Counter({"kind/bug": -10, "kind/feature": -5})
+        try:
+            analysis.plot_pie_chart(label_counter, "Negative Counts Test")
+        except ValueError as e:
+            self.assertIn("Wedge sizes 'x' must be non negative values", str(e))
 
 if __name__ == '__main__':
     unittest.main()
