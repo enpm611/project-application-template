@@ -1,74 +1,85 @@
-## 📦 Project: GitHub Issues Analyzer
+# 📊 GitHub Issues Analyzer
 
-This project is a Python-based application designed to fetch, analyze, and visualize GitHub issues from a repository. It allows users to extract insights using three core features: label distribution, resolution time categorization, and user participation activity.
+This project is a Python-based application designed to fetch, analyze, and visualize GitHub issues from a repository. It is built with modularity and extensibility in mind and it allows users to extract insights through multiple forms of analysis such as resolution time, label distribution, and user contribution patterns.
 
 ---
 
-### 📁 Project Structure
+## 🗂️ Project Structure
 
 ```
 project-application-template/
-├── run.py                      # Main entry point
-├── config/                     # JSON config and loader
-├── data/                       # Input JSON data
-├── diagrams/                  # Class diagrams and ERDs
-├── docs/                       # Documentation and requirements
-├── models/                     # Data models
-├── results/graphs/             # Analysis result images
-├── scripts/                    # Feature modules
-├── utils/                      # Reusable utility modules
+├──config
+│   ├── config.json
+│   ├── config.py
+│ 
+├── data                   # Sample issue JSON data
+│   ├── closed_issues.json
+│   ├── poetry.json
+│
+├── diagrams/              # UML/Class diagrams and ERDs
+│   ├── class-diagram.svg
+│   ├── class-diagram.txt
+│   ├── erd.svg
+│   └── erd.txt
+│
+├── docs/                  # Requirements and documentation links
+│   ├── repository_link.txt
+│   ├── requirements.txt
+│
+├── gui/                   # Optional GUI component using tkinter
+│   └── flexible_bucket_gui.py
+│
+├── models/                   # Optional GUI component using tkinter
+│   └── model.py
+│
+├── results/               # Analysis output (graphs)
+│    ├── graphs/                
+│       ├── LabelCountAnalysisGraph.png
+│       ├── ResolutionTimeAnalysisGraph.png
+│       └── UserIssuesAnalysisGraph.png     
+│
+├── scripts/               # Core scripts for analysis
+│   ├── resolution_time.py
+│   ├── label_count.py
+│   └── user_issues.py
+│
+├── tests/                 # Unit tests
+│   ├── test_resolution_time.py
+│   ├── test_label_count.py
+│   └── test_user_issues.py                                      
+│
+├── utils/                 # Utility modules
+│   ├── data_extractors.py
+│   ├── plot_utils.py
+│   ├── logging_utils.py
+│   └── json_utils.py
+│
+├── README.md              # Project documentation  
+│            
+└── run.py                 # Main entry point
+
 ```
 
 ---
 
-### 🚀 Features
+## ⚙️ Setup & Installation
 
-| Feature ID | Description                          | Run Command Example                  |
-|------------|--------------------------------------|--------------------------------------|
-| Feature 1  | Label Count Analysis                 | `python run.py --feature 1`          |
-| Feature 2  | Resolution Time GUI (Tkinter-based)  | `python run.py --feature 2`          |
-| Feature 3  | User Issues Activity Analysis        | `python run.py --feature 3`          |
+### 🔧 Prerequisites
+- Python 3.12+
+- `pip` package manager
+- GitHub personal access token (for API scraping)
 
----
+### 📦 Setup Virtual Environment
 
-### ⚙️ Configuration
-
-Located in: `config/config.json`
-
-```json
-{
-    "ENPM611_PROJECT_DATA_PATH":"path/to/data/file.json"
-}
-```
-
-You can modify this file to point to different datasets if needed.
-
----
-
-### 📊 Output
-
-Visualizations are saved to:
-```
-results/graphs/
-├── LabelCountAnalysisGraph.png
-├── ResolutionTimeAnalysisGraph.png
-└── UserIssuesAnalysisGraph.png
-```
-
----
-
-### 🧩 Dependencies
-
-Install requirements:
 ```bash
+python -m venv venv
+source venv/bin/activate  # or .\venv\Scripts\activate on Windows
 pip install -r docs/requirements.txt
 ```
 
-Make sure `matplotlib` and `tkinter` (GUI) are working. For macOS, use Python ≥ 3.10 from [python.org](https://www.python.org) for full GUI support.
-
 ---
 
-### 📐 Design Artifacts
+## 📐 Design Artifacts
 
 Located in the `diagrams/` folder:
 - `class-diagram.svg` / `.txt`
@@ -78,7 +89,7 @@ These diagrams describe the system architecture and data relationships.
 
 ---
 
-### 📤 Data Collection
+## 📤 Data Collection
 
 To extract GitHub issues and store them as JSON:
 
@@ -86,7 +97,7 @@ To extract GitHub issues and store them as JSON:
 python scripts/scraping_issues.py
 ```
 
-This script uses GitHub's API to pull issues and saves them as `poetry.json`.
+This script uses GitHub's API to pull issues and saves them as `poetry.json` in the `data/` folder.
 
 ---
 
@@ -104,14 +115,14 @@ These utilities are used across all three feature scripts for consistency and mo
 
 ---
 
-### 🖼️ GUI Module (Feature 2)
+## 🖼️ GUI Module (Feature 1)
 
 Located in: `gui/flexible_bucket_gui.py`
 
 This script powers the **resolution time GUI** launched by:
 
 ```bash
-python run.py --feature 2
+python run.py --feature 1
 ```
 
 **What it does:**
@@ -121,8 +132,54 @@ python run.py --feature 2
 
 **Requirements:**
 - Python with `tkinter` and `matplotlib` installed
-- GUI support (use Python from python.org on macOS for best results)
+- GUI support (use Python 3.9–3.12 from python.org version on macOS for best results)
 
 ---
 
+## 🚀 Running the Application
 
+Run any analysis script using:
+
+```bash
+python run.py --feature 1   # Launch GUI
+python run.py --feature 2   # Label count analysis
+python run.py --feature 3   # User contribution analysis
+```
+
+If you want to use the tkinter-based GUI (requires a display environment):
+
+```bash
+python gui/flexible_bucket_gui.py
+```
+
+---
+
+## 🧪 Running Tests & Coverage
+
+```bash
+python -m coverage run -m unittest discover -s tests
+python -m coverage report --omit="test_*.py"
+python -m coverage html --omit="test_*.py" # Generate HTML report
+open htmlcov/index.html  # View coverage GUI in browser (macOS)
+start htmlcov/index.html  # View coverage GUI in browser (Windows)
+```
+
+---
+
+## 📈 Visual Output
+
+Graphical results are saved in the `results/graphs/` folder:
+- 📊 `ResolutionTimeAnalysisGraph.png`
+- 🏷️ `LabelCountAnalysisGraph.png`
+- 👤 `UserIssuesAnalysisGraph.png`
+
+---
+
+## 🤝 Contributors
+
+- Divya Kamila
+- Heena Khan
+- Vineet Agarwal
+- Yixun Sindy
+
+---

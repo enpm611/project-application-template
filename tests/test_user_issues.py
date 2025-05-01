@@ -5,9 +5,9 @@ import scripts.user_issues  # Your main file with run()
 
 class TestUserIssues(unittest.TestCase):
 
-    @patch("user_issues.bar_chart")
-    @patch("user_issues.logger")
-    @patch("user_issues.load_json")
+    @patch("scripts.user_issues.bar_chart")
+    @patch("scripts.user_issues.logger")
+    @patch("scripts.user_issues.load_json")
     def test_run_with_valid_data(self, mock_load_json, mock_logger, mock_bar_chart):
         mock_data = [
             {"events": [{"author": "alice"}, {"author": "bob"}]},
@@ -15,7 +15,7 @@ class TestUserIssues(unittest.TestCase):
         ]
         mock_load_json.return_value = mock_data
 
-        user_issues.run()
+        scripts.user_issues.run()
 
         mock_load_json.assert_called_once_with("poetry.json")
         self.assertTrue(mock_logger.info.called)
@@ -25,16 +25,16 @@ class TestUserIssues(unittest.TestCase):
         self.assertEqual(authors, ("alice", "bob", "carol"))
         self.assertEqual(counts, (2, 1, 1))
 
-    @patch("user_issues.logger")
-    @patch("user_issues.load_json", side_effect=Exception("file error"))
+    @patch("scripts.user_issues.logger")
+    @patch("scripts.user_issues.load_json", side_effect=Exception("file error"))
     def test_run_with_json_load_failure(self, mock_load_json, mock_logger):
-        user_issues.run()
+        scripts.user_issues.run()
         mock_logger.error.assert_called_once()
         self.assertIn("Error loading JSON", mock_logger.error.call_args[0][0])
 
-    @patch("user_issues.bar_chart")
-    @patch("user_issues.logger")
-    @patch("user_issues.load_json")
+    @patch("scripts.user_issues.bar_chart")
+    @patch("scripts.user_issues.logger")
+    @patch("scripts.user_issues.load_json")
     def test_run_with_no_authors(self, mock_load_json, mock_logger, mock_bar_chart):
         mock_data = [
             {"events": [{"actor": "xyz"}]},  # No "author"
@@ -43,20 +43,20 @@ class TestUserIssues(unittest.TestCase):
         ]
         mock_load_json.return_value = mock_data
 
-        user_issues.run()
+        scripts.user_issues.run()
 
         mock_logger.warning.assert_called_once_with("No author events found in the dataset.")
         mock_bar_chart.assert_not_called()
 
-    @patch("user_issues.bar_chart")
-    @patch("user_issues.logger")
-    @patch("user_issues.load_json")
+    @patch("scripts.user_issues.bar_chart")
+    @patch("scripts.user_issues.logger")
+    @patch("scripts.user_issues.load_json")
     def test_run_with_empty_author_counts(self, mock_load_json, mock_logger, mock_bar_chart):
         # Artificial case where top_authors = []
         mock_data = [{"events": []}]  # No events → empty defaultdict
         mock_load_json.return_value = mock_data
 
-        user_issues.run()
+        scripts.user_issues.run()
 
         mock_logger.warning.assert_called_once_with("No author events found in the dataset.")
         mock_bar_chart.assert_not_called()
