@@ -126,6 +126,17 @@ class TestUserInputAndPlotting(BaseTestAnalysisOne):
             self.assertIn("bug", printed_output)
             self.assertNotIn("feature", printed_output)
 
+    def test_invalid_label_input_triggers_warning(self):
+          issue_bug = self.sample_issue.copy()
+          issue_feature = self.sample_issue.copy()
+          issue_feature["number"] = 2
+          issue_feature["labels"] = ["feature"]
+
+          with patch('builtins.print') as mock_print:
+              self._run_analysis([Issue(issue_bug), Issue(issue_feature)], user_input="random_label")
+              printed_output = "\n".join(str(call) for call in mock_print.call_args_list)
+              self.assertIn("Invalid input. Please run the program again", printed_output)
+
 
 class TestDataValidation(BaseTestAnalysisOne):
 
