@@ -1,0 +1,49 @@
+# Bytecode and cache
+__pycache__/
+*.py[cod]
+*.pyo
+
+# Virtual environments
+venv/
+.env/
+.venv/
+
+# OS files
+.DS_Store
+Thumbs.db
+
+# Coverage reports
+.coverage
+coverage.xml
+htmlcov/
+
+# Test results / debug
+*.log
+*.tmp
+*.bak
+
+# IDE / Editor settings
+.vscode/
+.idea/
+*.swp
+
+# Jupyter notebooks checkpoints (if using)
+.ipynb_checkpoints/
+
+
+# Zip and binaries
+*.zip
+*.tar.gz
+*.exe
+*.dll
+
+# Matplotlib cache (if any)
+.matplotlib/
+
+# Ignore compiled C extensions
+*.so
+
+# Ignore exported reports or plots
+*.png
+*.pdf
+*.svg
