@@ -1,11 +1,18 @@
 import unittest
 from unittest.mock import MagicMock, patch
 import math
-from utils.data_extractors import parse_time_to_minutes, bucket_values, UNIT_MAP
+import tkinter as tk
+import matplotlib
+matplotlib.use("Agg")
+from utils.data_extractors import (
+    parse_time_to_minutes,
+    bucket_values,
+    extract_label_counts,
+    extract_author_counts,
+    UNIT_MAP,
+)
 from gui.flexible_bucket_gui import BucketRow, FlexibleXUnitApp
-
-
-
+from utils.plot_utils import gui_bar_chart
 
 class TestResolutionApp(unittest.TestCase):
     def setUp(self):
@@ -167,6 +174,42 @@ class TestResolutionApp(unittest.TestCase):
         first_bucket.delete()
 
         self.assertEqual(len(app.bucket_rows), original_count - 1)
+
+class TestDataExtractors(unittest.TestCase):
+    def test_extract_label_counts(self):
+        issues = [{"labels": ["kind/bug", "kind/feature", "other"]}]
+        result = extract_label_counts(issues)
+        self.assertEqual(result["kind/bug"], 1)
+        self.assertEqual(result["kind/feature"], 1)
+        self.assertNotIn("other", result)
+
+    def test_extract_author_counts(self):
+        issues = [
+            {"events": [{"author": "alice"}, {"author": "bob"}, {"author": "alice"}]},
+            {"events": [{"author": "bob"}]},
+        ]
+        result = extract_author_counts(issues)
+        self.assertEqual(result["alice"], 2)
+        self.assertEqual(result["bob"], 2)
+
+class TestPlotUtils(unittest.TestCase):
+
+    @patch("utils.plot_utils.FigureCanvasTkAgg")
+    def test_gui_bar_chart(self, mock_canvas_class):
+        mock_canvas_instance = mock_canvas_class.return_value
+        mock_canvas_instance.get_tk_widget.return_value = MagicMock()
+
+        root = tk.Tk()
+        root.withdraw()  # Prevent actual GUI from showing
+
+        labels = ["Fast", "Slow"]
+        counts = [2, 3]
+        fig, ax, canvas = gui_bar_chart(root, labels, counts, "X", "Y", "Title")
+
+        self.assertIsNotNone(fig)
+        self.assertIsNotNone(ax)
+        self.assertTrue(mock_canvas_class.called)
+        root.destroy()
 
 if __name__ == "__main__":
     unittest.main()
