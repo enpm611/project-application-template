@@ -175,7 +175,7 @@ Example output pie charts for different labels distribution:
    ```bash
    coverage html  --omit="test_*"
    ```
-### -> Test: `test_analysis_one.py`
+### -> Test: `test_anaylsis_one.py`
 
 This test file checks the functionality of the `analysis_one.py` module, which analyzes GitHub issues by label to calculate:
 
