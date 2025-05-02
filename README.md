@@ -174,7 +174,7 @@ Example output pie charts for different labels distribution:
    ```bash
    coverage html  --omit="test_*"
    ```
-### Test: `test_analysis_one.py`
+### -> Test: `test_analysis_one.py`
 
 This test file checks the functionality of the `analysis_one.py` module, which analyzes GitHub issues by label to calculate:
 
@@ -200,7 +200,7 @@ The tests include both normal and edge cases, such as:
 
 These tests helped catch important edge case bugs and highlight where better error handling is needed.
 
-### Test: `test_feature2.py`
+### -> Test: `test_feature2.py`
 
 This test file checks the functionality of the `feature2.py` module, which analyzes the number of comments per issue label and visualizes trends over time.
 
@@ -222,7 +222,7 @@ The tests verify:
 
 This test suite confirms that the second feature works reliably across valid inputs and gracefully handles edge cases like invalid or missing data files.
 
-### Test: `test_pieChart_Labels.py`
+### -> Test: `test_pieChart_Labels.py`
 
 This test file targets the `pieChart_Labels.py` module, which generates pie charts for GitHub issue labels grouped by `kind/`, `status/`, and `area/`.
 
@@ -246,7 +246,7 @@ The tests evaluate:
 
 This test confirms that visualizations work under expected conditions but highlights a need for better input validation when label formats are incorrect.
 
-### Test: `test_config.py`
+### -> Test: `test_config.py`
 
 This test file verifies the `config.py` module, which handles application settings loaded from `config.json` and allows runtime overrides.
 
