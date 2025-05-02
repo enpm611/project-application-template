@@ -13,8 +13,9 @@ This repository contains an application for analyzing **GitHub Issues** from the
 4. [Installation and Setup](#installation-and-setup)  
 5. [Usage](#usage)  
 6. [Examples](#examples)
-7. [Repository Structure](#repository-structure)  
-7. [App Functionality](#app-functionality)  
+7. [Repository Structure](#repository-structure)
+8. [Testing](#Testing)  
+9. [App Functionality](#app-functionality)  
 
 
 ## Project Overview
