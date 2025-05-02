@@ -174,20 +174,32 @@ Example output pie charts for different labels distribution:
    ```bash
    coverage html  --omit="test_*"
    ```
-### `analysis_one.py`
+### Test: `test_analysis_one.py`
 
-- Unit tests were written to verify label grouping, issue lifespan calculation, comment counting, user input handling, and plotting logic.
-- Tests include edge cases such as:
-  - Empty issue lists
-  - Issues without labels
-  - Issues missing date fields
-  - Issues with no events
-- **Test results revealed four failures**, exposing real issues in the code:
-  - `KeyError: 'avg_lifespan_hours'` when sorting or plotting an empty DataFrame.
-  - `IndexError` during plotting when no data is available due to missing dates.
-  - Label filtering test fails because non-matching labels still appear in printed output.
-  - DataFrame structure assumptions are not safely guarded for all input scenarios.
-- These failures indicate that `analysis_one.py` needs better handling for empty or incomplete datasets.
+This test file checks the functionality of the `analysis_one.py` module, which analyzes GitHub issues by label to calculate:
+
+- Average lifespan of issues (in hours)  
+- Average number of comments  
+- Total number of contributors  
+
+The tests include both normal and edge cases, such as:
+- Empty issue list
+- Missing labels or dates
+- User input filtering
+- Output format and chart generation
+
+**Test Results**:
+- **Total tests run**: 11  
+- **Passed**: 7  
+- **Failed**: 4  
+
+**Discovered Issues**:
+- Crashes when the issue list is empty (due to missing `avg_lifespan_hours` column)
+- Plotting fails if necessary data is missing
+- Label filtering fails to exclude some unexpected labels
+
+These tests helped catch important edge case bugs and highlight where better error handling is needed.
+
 
 
 ## App Functionality
