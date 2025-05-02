@@ -3,6 +3,6 @@
 # Ignore all __pycache__ directories recursively
 __pycache__/
 #Ignore the virtual environment
-venv/
+venv-py312/
 # Ignore Python bytecode files 
 *.pyc

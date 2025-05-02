@@ -68,14 +68,18 @@ project-application-template/
 - Python 3.12+
 - `pip` package manager
 - GitHub personal access token (for API scraping)
+- Python 3.9–3.12 (installed via [python.org](https://www.python.org/downloads/mac-osx/) for full Tkinter support on macOS)
+- tkinter (included with standard Python installation)
+- matplotlib, pandas, python-dateutil, coverage
 
 ### 📦 Setup Virtual Environment
 
 ```bash
-python -m venv venv
-source venv/bin/activate  # for MacOS
-source venv/Scripts/activate  # for Windows
+/Library/Frameworks/Python.framework/Versions/3.12/bin/python3 -m venv venv-py312
+source venv-py312/bin/activate  # for MacOS
+source venv-py312/Scripts/activate  # for Windows
 pip install -r docs/requirements.txt
+pip install --upgrade pip
 ```
 
 ---
@@ -130,10 +134,6 @@ python run.py --feature 1
 - Opens a Tkinter-based window
 - Allows the user to define resolution time buckets
 - Displays a bar chart with issue counts in each bucket
-
-**Requirements:**
-- Python with `tkinter` and `matplotlib` installed
-- GUI support (use Python 3.9–3.12 from python.org version on macOS for best results)
 
 ---
 
