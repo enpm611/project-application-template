@@ -9,6 +9,8 @@ import argparse
 
 import config
 from example_analysis import ExampleAnalysis
+from data_loader import DataLoader
+from contributor_activity_analyzer import ContributorActivityAnalyzer
 
 
 def parse_args():
@@ -43,12 +45,32 @@ def parse_args():
 args = parse_args()
 # Add arguments to config so that they can be accessed in other parts of the application
 config.overwrite_from_args(args)
+
+#Load data
+loader = DataLoader()
+issues = loader.get_issues()
     
 # Run the feature specified in the --feature flag
 if args.feature == 0:
     ExampleAnalysis().run()
-elif args.feature == 1:
-    pass # TODO call first analysis
+elif args.feature == 1:    
+    # Run contributor activity analysis
+    analyzer = ContributorActivityAnalyzer()
+    
+    # Print summaries
+    print("Active Issues per Contributor:")
+    active_counts = analyzer.get_active_issues_count_per_contributor(issues)
+    for contributor, count in active_counts.items():
+        print(f"{contributor}: {count}")
+
+    print("\nIssue Type Distribution per Contributor:")
+    issue_distribution = analyzer.get_issue_type_distribution_per_contributor(issues)
+    for contributor, dist in issue_distribution.items():
+        print(f"{contributor}: {dist}")
+
+    # Plot charts
+    analyzer.plot_top_contributors_by_active_issues(issues)
+    analyzer.plot_issue_type_distribution_per_contributor(issues)
 elif args.feature == 2:
     pass # TODO call second analysis
 elif args.feature == 3:
