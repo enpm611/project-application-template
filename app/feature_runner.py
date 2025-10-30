@@ -1,6 +1,8 @@
 from config import ConfigManager
 from controllers.contributors_controller import ContributorsController
-
+from controllers.label_resolution_controller import LabelResolutionController
+from visualization.label_resolution_visualizer import LabelResolutionVisualizer
+from data_loader import DataLoader
 class FeatureRunner:
     def __init__(self):
         self.config = None
@@ -19,8 +21,48 @@ class FeatureRunner:
         3 = Priority Analysis
         """
         if feature_number == 1:
-            print("▶ Running Lifecycle Analysis...")
-            pass
+            data_path = self.config.get_data_path()
+            DataLoaderInstance = DataLoader()
+            issues = DataLoaderInstance.get_issues()
+            print("\n" + "="*70)
+            print("FEATURE 1: LABEL RESOLUTION TIME ANALYSIS AND PREDICTION")
+            print("="*70)
+            
+            # Initialize controller
+            controller = LabelResolutionController(issues)
+            
+            # Run full analysis
+            results = controller.run_full_analysis()
+            
+            # Generate visualizations
+            visualizer = LabelResolutionVisualizer(results)
+            visualizer.generate_all_visualizations()
+            
+            print("\n" + "="*70)
+            print("FEATURE 1 COMPLETED")
+            print("="*70)
+            print("\nOutput Files:")
+            print("  • output/label_resolution_analysis.json - Complete analysis results")
+            print("  • output/label_statistics.json - Label-wise statistics")
+            print("  • output/open_issue_predictions.json - Predictions for open issues")
+            print("  • output/visualizations/ - All generated graphs")
+            print("\n" + "="*70)
+            
+            # Example: Query specific label
+            print("\nExample Query:")
+            example_labels = ['Area/Docs', 'kind/bug', 'kind/feature']
+            for label in example_labels:
+                result = controller.query_label_resolution_time(label)
+                if result['status'] == 'success':
+                    print(f"\n{label}:")
+                    print(f"  Expected resolution: {result['predicted_days']} days")
+                    print(f"  Based on {result['based_on_issues']} historical issues")
+                    print(f"  Confidence range: {result['confidence_range']['min_days']}-"
+                        f"{result['confidence_range']['max_days']} days")
+                else:
+                    print(f"\n{label}: {result['message']}")
+                
+            print(results)
 
         elif feature_number == 2:
             print("▶ Running Contributors Dashboard...")

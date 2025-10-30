@@ -7,6 +7,261 @@ from typing import List
 from enum import Enum
 from datetime import datetime, timedelta
 from dateutil import parser
+from sklearn.ensemble import RandomForestRegressor, GradientBoostingRegressor
+from sklearn.model_selection import train_test_split, cross_val_score
+from sklearn.metrics import mean_absolute_error, mean_squared_error, r2_score
+from sklearn.preprocessing import StandardScaler
+import numpy as np
+import joblib
+import json
+from typing import Dict, List, Tuple
+
+
+class LabelResolutionPredictor:
+    """
+    Machine Learning model for predicting issue resolution times
+    Uses Random Forest and Gradient Boosting ensemble
+    """
+    
+    def __init__(self):
+        """Initialize the prediction models"""
+        self.rf_model = RandomForestRegressor(
+            n_estimators=100,
+            max_depth=10,
+            min_samples_split=5,
+            min_samples_leaf=2,
+            random_state=42,
+            n_jobs=-1
+        )
+        
+        self.gb_model = GradientBoostingRegressor(
+            n_estimators=100,
+            learning_rate=0.1,
+            max_depth=5,
+            random_state=42
+        )
+        
+        self.scaler = StandardScaler()
+        self.is_trained = False
+        self.feature_names = []
+        self.training_metrics = {}
+        
+    def train(self, features: List, labels: List, feature_names: List) -> Dict:
+        """
+        Train the ML models
+        
+        Args:
+            features: List of feature vectors
+            labels: List of resolution times (in hours)
+            feature_names: Names of features
+            
+        Returns:
+            Dictionary containing training metrics
+        """
+        if len(features) < 10:
+            return {
+                'status': 'error',
+                'message': 'Insufficient training data. Need at least 10 samples.'
+            }
+        
+        self.feature_names = feature_names
+        
+        # Convert to numpy arrays
+        X = np.array(features)
+        y = np.array(labels)
+        
+        # Scale features
+        X_scaled = self.scaler.fit_transform(X)
+        
+        # Split data
+        X_train, X_test, y_train, y_test = train_test_split(
+            X_scaled, y, test_size=0.2, random_state=42
+        )
+        
+        # Train Random Forest
+        self.rf_model.fit(X_train, y_train)
+        rf_pred = self.rf_model.predict(X_test)
+        
+        # Train Gradient Boosting
+        self.gb_model.fit(X_train, y_train)
+        gb_pred = self.gb_model.predict(X_test)
+        
+        # Ensemble prediction (average)
+        ensemble_pred = (rf_pred + gb_pred) / 2
+        
+        # Calculate metrics
+        self.training_metrics = {
+            'status': 'success',
+            'training_samples': len(X_train),
+            'test_samples': len(X_test),
+            'random_forest': {
+                'mae_hours': float(mean_absolute_error(y_test, rf_pred)),
+                'mae_days': float(mean_absolute_error(y_test, rf_pred) / 24),
+                'rmse_hours': float(np.sqrt(mean_squared_error(y_test, rf_pred))),
+                'r2_score': float(r2_score(y_test, rf_pred))
+            },
+            'gradient_boosting': {
+                'mae_hours': float(mean_absolute_error(y_test, gb_pred)),
+                'mae_days': float(mean_absolute_error(y_test, gb_pred) / 24),
+                'rmse_hours': float(np.sqrt(mean_squared_error(y_test, gb_pred))),
+                'r2_score': float(r2_score(y_test, gb_pred))
+            },
+            'ensemble': {
+                'mae_hours': float(mean_absolute_error(y_test, ensemble_pred)),
+                'mae_days': float(mean_absolute_error(y_test, ensemble_pred) / 24),
+                'rmse_hours': float(np.sqrt(mean_squared_error(y_test, ensemble_pred))),
+                'r2_score': float(r2_score(y_test, ensemble_pred))
+            },
+            'feature_importance': self._get_feature_importance()
+        }
+        
+        self.is_trained = True
+        return self.training_metrics
+    
+    def predict(self, features: List) -> Dict:
+        """
+        Predict resolution time for given features
+        
+        Args:
+            features: Feature vector for prediction
+            
+        Returns:
+            Dictionary with prediction results
+        """
+        if not self.is_trained:
+            return {
+                'status': 'error',
+                'message': 'Model not trained yet'
+            }
+        
+        # Scale features
+        X = np.array([features])
+        X_scaled = self.scaler.transform(X)
+        
+        # Get predictions from both models
+        rf_pred = self.rf_model.predict(X_scaled)[0]
+        gb_pred = self.gb_model.predict(X_scaled)[0]
+        
+        # Ensemble prediction
+        ensemble_pred = (rf_pred + gb_pred) / 2
+        
+        return {
+            'status': 'success',
+            'predicted_hours': float(ensemble_pred),
+            'predicted_days': float(ensemble_pred / 24),
+            'confidence_interval': {
+                'lower_days': float(max(0, ensemble_pred - self.training_metrics['ensemble']['mae_hours']) / 24),
+                'upper_days': float((ensemble_pred + self.training_metrics['ensemble']['mae_hours']) / 24)
+            },
+            'model_predictions': {
+                'random_forest_days': float(rf_pred / 24),
+                'gradient_boosting_days': float(gb_pred / 24)
+            }
+        }
+    
+    def predict_batch(self, features_list: List[List]) -> List[Dict]:
+        """
+        Predict resolution times for multiple issues
+        
+        Args:
+            features_list: List of feature vectors
+            
+        Returns:
+            List of prediction dictionaries
+        """
+        predictions = []
+        for features in features_list:
+            pred = self.predict(features)
+            predictions.append(pred)
+        return predictions
+    
+    def _get_feature_importance(self) -> Dict:
+        """
+        Get feature importance from Random Forest model
+        
+        Returns:
+            Dictionary mapping feature names to importance scores
+        """
+        importance_dict = {}
+        importances = self.rf_model.feature_importances_
+        
+        for name, importance in zip(self.feature_names, importances):
+            importance_dict[name] = float(importance)
+        
+        # Sort by importance
+        sorted_importance = dict(sorted(
+            importance_dict.items(), 
+            key=lambda x: x[1], 
+            reverse=True
+        ))
+        
+        return sorted_importance
+    
+    def get_model_info(self) -> Dict:
+        """
+        Get information about the trained model
+        
+        Returns:
+            Dictionary with model information
+        """
+        return {
+            'is_trained': self.is_trained,
+            'features': self.feature_names,
+            'training_metrics': self.training_metrics if self.is_trained else None,
+            'model_type': 'Random Forest + Gradient Boosting Ensemble'
+        }
+    
+    def save_model(self, filepath: str) -> bool:
+        """
+        Save trained model to disk
+        
+        Args:
+            filepath: Path to save the model
+            
+        Returns:
+            True if successful, False otherwise
+        """
+        if not self.is_trained:
+            return False
+        
+        try:
+            model_data = {
+                'rf_model': self.rf_model,
+                'gb_model': self.gb_model,
+                'scaler': self.scaler,
+                'feature_names': self.feature_names,
+                'training_metrics': self.training_metrics
+            }
+            joblib.dump(model_data, filepath)
+            return True
+        except Exception as e:
+            print(f"Error saving model: {e}")
+            return False
+    
+    def load_model(self, filepath: str) -> bool:
+        """
+        Load trained model from disk
+        
+        Args:
+            filepath: Path to load the model from
+            
+        Returns:
+            True if successful, False otherwise
+        """
+        try:
+            model_data = joblib.load(filepath)
+            self.rf_model = model_data['rf_model']
+            self.gb_model = model_data['gb_model']
+            self.scaler = model_data['scaler']
+            self.feature_names = model_data['feature_names']
+            self.training_metrics = model_data['training_metrics']
+            self.is_trained = True
+            return True
+        except Exception as e:
+            print(f"Error loading model: {e}")
+            return False
+
+
 
 
 class State(str, Enum):
