@@ -1,0 +1,33 @@
+erDiagram
+    ISSUE {
+        int number PK
+        string url
+        string title
+        string text
+        string state
+        datetime created_date
+        datetime updated_date
+        string timeline_url
+    }
+
+    USER {
+        string login PK
+    }
+
+    LABEL {
+        string name PK
+    }
+
+    EVENT {
+        string event_type
+        datetime event_date
+        string comment
+        string label
+    }
+
+    ISSUE ||--|| USER : "created by (creator)"
+    ISSUE }o--o{ USER : "assigned to (assignees)"
+    ISSUE }o--o{ LABEL : "tagged with (labels)"
+    ISSUE ||--o{ EVENT : "has timeline"
+    EVENT }o--|| USER : "authored by"
+    EVENT }o--o| LABEL : "references (labeled/unlabeled)"
