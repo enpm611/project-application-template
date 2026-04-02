@@ -1,0 +1,67 @@
+classDiagram
+    class State {
+        <<enumeration>>
+        open
+        closed
+    }
+
+    class Event {
+        +String event_type
+        +String author
+        +datetime event_date
+        +String label
+        +String comment
+        +from_json(jobj)
+    }
+
+    class Issue {
+        +String url
+        +String creator
+        +List~String~ labels
+        +State state
+        +List~String~ assignees
+        +String title
+        +String text
+        +int number
+        +datetime created_date
+        +datetime updated_date
+        +String timeline_url
+        +List~Event~ events
+        +from_json(jobj)
+    }
+
+    class DataLoader {
+        +String data_path
+        +get_issues() List~Issue~
+        -_load() List~Issue~
+    }
+
+    class ExampleAnalysis {
+        +String USER
+        +run()
+    }
+
+    class config {
+        <<module>>
+        +get_parameter(name, default)
+        +set_parameter(name, value)
+        +convert_to_typed_value(value)
+        +overwrite_from_args(args)
+        -_init_config(path)
+        -_get_default_path()
+    }
+
+    class scrape_github {
+        <<module>>
+        +format_issue(issue)
+        +format_issue_events(issue)
+    }
+
+    Issue "1" *-- "0..*" Event : contains
+    Issue --> State : uses
+    DataLoader ..> Issue : creates
+    ExampleAnalysis --> DataLoader : uses
+    ExampleAnalysis ..> Issue : uses
+    ExampleAnalysis --> config : depends on
+    DataLoader --> config : depends on
+    scrape_github ..> Issue : mirrors schema of
