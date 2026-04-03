@@ -1,3 +1,5 @@
 python-dateutil
 pandas
 matplotlib
+requests
+python-dotenv
