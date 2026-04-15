@@ -37,7 +37,7 @@ class StateAnalysis:
         output = f'Found {len(issues)} issues with the following state counts: \n'
         for state, count in state_count.items():
             output += f'\t{state}: {count}\n'
-        print(output + '\n')
+        print(output)
         
         # For each user, count how many issues are open
         user_state_count = defaultdict(lambda: defaultdict(int))
