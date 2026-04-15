@@ -26,26 +26,35 @@ class StateAnalysis:
         results in the console.
         """
         # Load issues from the data file
-        issues:List[Issue] = DataLoader().get_issues()
+        issues: List[Issue] = DataLoader().get_issues()
 
         # Count the number of open and closed issues
         state_count = defaultdict(int)
         for issue in issues:
             state_count[issue.state] += 1
 
-        # Print results
+        # Print open and closed issues
         output = f'Found {len(issues)} issues with the following state counts: \n'
         for state, count in state_count.items():
             output += f'\t{state}: {count}\n'
-        print(output)
+        print(output + '\n')
         
-        # For each users, count how many issues are opened
+        # For each user, count how many issues are open
         user_state_count = defaultdict(lambda: defaultdict(int))
         for issue in issues:
-            if issue.creator and issue.state == 'open':  # Skip if no creator (optional safeguard)
+            if issue.creator and issue.state == 'open':
                 user_state_count[issue.creator]['open'] += 1
         
-        output = f'Open issue counts per user ({len(user_state_count)} users with open issues):\n:'
+        # Determine the top contributor
+        if user_state_count:
+            top_contributor = max(user_state_count, key=lambda u: user_state_count[u]['open'])
+            top_count = user_state_count[top_contributor]['open']
+            print(f'Top contributor: {top_contributor} with {top_count} open issues\n')
+        else:
+            print('No users with open issues.\n')
+        
+        # Print open issue counts per user
+        output = f'Open issue counts per user ({len(user_state_count)} users with open issues):\n'
         for creator, states in user_state_count.items():
             open_count = states.get('open', 0)
             output += f'{creator}: {open_count}\n'
