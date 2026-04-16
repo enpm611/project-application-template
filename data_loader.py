@@ -34,7 +34,7 @@ class DataLoader:
         """
         Loads the issues into memory.
         """
-        with open(self.data_path,'r') as fin:
+        with open(self.data_path,'r', encoding="utf-8") as fin:
             return [Issue(i) for i in json.load(fin)]
     
 
