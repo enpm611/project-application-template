@@ -10,6 +10,7 @@ import argparse
 import config
 from example_analysis import ExampleAnalysis
 from label_resolution_analysis import LabelResolutionAnalysis
+from label_distribution_analysis import LabelDistributionAnalysis
 
 
 def parse_args():
@@ -51,7 +52,7 @@ if args.feature == 0:
 elif args.feature == 1:
     LabelResolutionAnalysis().run()
 elif args.feature == 2:
-    pass # TODO call second analysis
+    LabelDistributionAnalysis().run()
 elif args.feature == 3:
     pass # TODO call third analysis
 else:
