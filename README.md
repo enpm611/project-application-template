@@ -47,3 +47,21 @@ That will output basic information about the issues to the command line.
 To make the application easier to debug, runtime configurations are provided to run each of the analyses you are implementing. When you click on the run button in the left-hand side toolbar, you can select to run one of the three analyses or run the file you are currently viewing. That makes debugging a little easier. This run configuration is specified in the `.vscode/launch.json` if you want to modify it.
 
 The `.vscode/settings.json` also customizes the VSCode user interface sligthly to make navigation and debugging easier. But that is a matter of preference and can be turned off by removing the appropriate settings.
+## How to Run Each Feature
+
+### Feature 1 – Label Resolution Time (requires --label)
+python run.py --feature 1 --label "kind/bug"
+
+Shows how long issues with that label take to close, with a histogram chart.
+
+### Feature 2 – Contributor Label Heatmap
+python run.py --feature 2
+python run.py --feature 2 --user nishantjr
+
+Shows which labels each contributor creates most, as a color heatmap.
+
+### Feature 3 – User vs. Overall Label Comparison (requires --user)
+python run.py --feature 3 --user nishantjr
+
+Compares one user's label distribution against the whole project average,
+with a printed table and a bar chart.

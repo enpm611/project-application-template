@@ -11,7 +11,7 @@ import config
 from example_analysis import ExampleAnalysis
 from label_resolution_analysis import LabelResolutionAnalysis
 from label_distribution_analysis import LabelDistributionAnalysis
-
+from user_label_comparison_analysis import UserLabelComparisonAnalysis
 
 def parse_args():
     """
@@ -54,6 +54,6 @@ elif args.feature == 1:
 elif args.feature == 2:
     LabelDistributionAnalysis().run()
 elif args.feature == 3:
-    pass # TODO call third analysis
+    UserLabelComparisonAnalysis().run()
 else:
     print('Need to specify which feature to run with --feature flag.')
