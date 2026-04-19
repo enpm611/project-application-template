@@ -65,3 +65,12 @@ python run.py --feature 3 --user nishantjr
 
 Compares one user's label distribution against the whole project average,
 with a printed table and a bar chart.
+
+### Feature 4 – Issue Volume Trends Over Time (overall, no input required)
+
+    python run.py --feature 4
+
+Analyzes how Poetry's issue activity has changed year over year. 
+Shows issues opened vs closed per year, close rate trends, and 
+peak activity years across the full history of the project (2018–2026).
+

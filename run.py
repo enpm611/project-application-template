@@ -8,6 +8,7 @@ the command line to run the analyses.
 import argparse
 
 import config
+from issue_trend_analysis import IssueTrendAnalysis
 from example_analysis import ExampleAnalysis
 from label_resolution_analysis import LabelResolutionAnalysis
 from label_distribution_analysis import LabelDistributionAnalysis
@@ -55,5 +56,7 @@ elif args.feature == 2:
     LabelDistributionAnalysis().run()
 elif args.feature == 3:
     UserLabelComparisonAnalysis().run()
+elif args.feature == 4:
+    IssueTrendAnalysis().run()
 else:
     print('Need to specify which feature to run with --feature flag.')
