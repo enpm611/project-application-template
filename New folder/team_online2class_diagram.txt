@@ -1,0 +1,97 @@
+classDiagram
+    class run_py {
+        +parse_args()
+    }
+
+    class config_py {
+        +get_parameter(parameter_name, default=None)
+        +set_parameter(name, value)
+        +overwrite_from_args(args)
+        +convert_to_typed_value(value)
+    }
+
+    class DataLoader {
+        -data_path: str
+        +get_issues()
+        -_load()
+    }
+
+    class ExampleAnalysis {
+        -USER: str
+        +run()
+    }
+
+    class LabelActivityAnalysis {
+        -LABEL: str
+        +run()
+    }
+
+    class ContributorActivityAnalysis {
+        -USER: str
+        +run()
+    }
+
+    class IssueTrendAnalysis {
+        +run()
+    }
+
+    class State {
+        <<enumeration>>
+        open
+        closed
+    }
+
+    class Event {
+        +event_type: str
+        +author: str
+        +event_date: datetime
+        +label: str
+        +comment: str
+        +from_json(jobj)
+    }
+
+    class Issue {
+        +url: str
+        +creator: str
+        +labels: List[str]
+        +state: State
+        +assignees: List[str]
+        +title: str
+        +text: str
+        +number: int
+        +created_date: datetime
+        +updated_date: datetime
+        +timeline_url: str
+        +events: List[Event]
+        +from_json(jobj)
+    }
+
+    run_py --> config_py : overwrite_from_args
+    run_py --> ExampleAnalysis : feature 0
+    run_py --> LabelActivityAnalysis : feature 1
+    run_py --> ContributorActivityAnalysis : feature 2
+    run_py --> IssueTrendAnalysis : feature 3
+
+    ExampleAnalysis --> DataLoader : get_issues()
+    ExampleAnalysis --> config_py : get_parameter(user)
+    ExampleAnalysis --> Issue : analyzes
+    ExampleAnalysis --> Event : reads events
+
+    LabelActivityAnalysis --> DataLoader : get_issues()
+    LabelActivityAnalysis --> config_py : get_parameter(label)
+    LabelActivityAnalysis --> Issue : analyzes labels
+
+    ContributorActivityAnalysis --> DataLoader : get_issues()
+    ContributorActivityAnalysis --> config_py : get_parameter(user)
+    ContributorActivityAnalysis --> Issue : analyzes contributors
+    ContributorActivityAnalysis --> Event : analyzes events
+
+    IssueTrendAnalysis --> DataLoader : get_issues()
+    IssueTrendAnalysis --> Issue : analyzes trends
+    IssueTrendAnalysis --> Event : analyzes timelines
+
+    DataLoader --> config_py : get_parameter(data path)
+    DataLoader --> Issue : loads
+
+    Issue --> Event : contains
+    Issue --> State : uses

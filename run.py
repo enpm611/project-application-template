@@ -1,57 +1,38 @@
-
-
-"""
-Starting point of the application. This module is invoked from
-the command line to run the analyses.
-"""
-
 import argparse
+from data_loader import DataLoader
+from issue_trend_analysis import IssueTrendAnalysis
+from label_activity_analysis import LabelActivityAnalysis
+from contributor_activity_analysis import ContributorActivityAnalysis
+data_loader = DataLoader()
 
-import config
-from example_analysis import ExampleAnalysis
+def parse_args(args=None):
+    ap = argparse.ArgumentParser()
+    ap.add_argument("--feature", "-f", default="1")
+    ap.add_argument("--user")
+    ap.add_argument("--label")
+    return ap.parse_args(args)
 
+def main():
+    args = parse_args()
 
-def parse_args():
-    """
-    Parses the command line arguments that were provided along
-    with the python command. The --feature flag must be provided as
-    that determines what analysis to run. Optionally, you can pass in
-    a user and/or a label to run analysis focusing on specific issues.
-    
-    You can also add more command line arguments following the pattern
-    below.
-    """
-    ap = argparse.ArgumentParser("run.py")
-    
-    # Required parameter specifying what analysis to run
-    ap.add_argument('--feature', '-f', type=int, required=True,
-                    help='Which of the three features to run')
-    
-    # Optional parameter for analyses focusing on a specific user (i.e., contributor)
-    ap.add_argument('--user', '-u', type=str, required=False,
-                    help='Optional parameter for analyses focusing on a specific user')
-    
-    # Optional parameter for analyses focusing on a specific label
-    ap.add_argument('--label', '-l', type=str, required=False,
-                    help='Optional parameter for analyses focusing on a specific label')
-    
-    return ap.parse_args()
+    issues = DataLoader("poetry_issues.json")
 
 
+    if args.feature == "1":
+        analysis = IssueTrendAnalysis()
+        analysis.run()
 
-# Parse feature to call from command line arguments
-args = parse_args()
-# Add arguments to config so that they can be accessed in other parts of the application
-config.overwrite_from_args(args)
-    
-# Run the feature specified in the --feature flag
-if args.feature == 0:
-    ExampleAnalysis().run()
-elif args.feature == 1:
-    pass # TODO call first analysis
-elif args.feature == 2:
-    pass # TODO call second analysis
-elif args.feature == 3:
-    pass # TODO call third analysis
-else:
-    print('Need to specify which feature to run with --feature flag.')
+    elif args.feature == "2":
+        analysis = LabelActivityAnalysis()
+        analysis.run()
+
+    elif args.feature == "3":
+        analysis = ContributorActivityAnalysis()
+        analysis.run()
+
+    else:
+        print("Invalid feature")
+
+
+if __name__ == "__main__":
+    main()

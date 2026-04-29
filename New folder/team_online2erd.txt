@@ -1,0 +1,33 @@
+erDiagram
+    ISSUE {
+        int number PK
+        string url
+        string title
+        string text
+        string state
+        string created_date
+        string updated_date
+        string timeline_url
+    }
+
+    USER {
+        string username PK
+    }
+
+    LABEL {
+        string name PK
+    }
+
+    EVENT {
+        int event_id PK
+        string event_type
+        string event_date
+        string comment
+    }
+
+    USER ||--o{ ISSUE : creates
+    ISSUE ||--o{ EVENT : has
+    USER ||--o{ EVENT : authors
+    ISSUE }o--o{ LABEL : has
+    ISSUE }o--o{ USER : assigned_to
+    LABEL ||--o{ EVENT : referenced_in
