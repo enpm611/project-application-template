@@ -8,14 +8,11 @@ from data_loader import DataLoader
 from model import Issue
 
 
-class LabelActivityAnalysis:
-    def __init__(self, issues: Optional[List[Issue]] = None):
-        self.issues = issues
 
-        try:
-            self.LABEL = config.get_parameter('label')
-        except Exception:
-            self.LABEL = None
+class LabelActivityAnalysis:
+    def __init__(self, issues=None):
+        self.issues = issues
+        self.LABEL = config.get_parameter("label")
 
     def run(self):
       
