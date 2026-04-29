@@ -12,11 +12,15 @@ from model import Issue
 class LabelActivityAnalysis:
     def __init__(self, issues=None):
         self.issues = issues
-        self.LABEL = config.get_parameter("label")
+        try:
+            self.LABEL = config.get_parameter("label")
+        except Exception:
+            self.LABEL = None
 
     def run(self):
-      
-        issues: List[Issue] = self.issues or DataLoader().load_data()
+        issues: List[Issue] = (
+            self.issues if self.issues is not None else DataLoader().load_data()
+        )
 
         if not issues:
             print("No issues found in dataset.")
