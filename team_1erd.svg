@@ -1,0 +1,224 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1000 780" width="1000" height="780" font-family="Segoe UI, Arial, sans-serif" font-size="12">
+
+  <!-- Background -->
+  <rect width="1000" height="780" fill="#f7f8fc"/>
+
+  <!-- Title -->
+  <text x="500" y="34" text-anchor="middle" font-size="16" font-weight="700" fill="#1a1a2e">GitHub Issue Tracking — Entity Relationship Diagram</text>
+  <line x1="40" y1="44" x2="960" y2="44" stroke="#c0c4d6" stroke-width="1.2"/>
+
+  <!-- ══════════════════════════════════════
+       ENTITY: ISSUE  left=370 top=56 w=220 h=252
+       right=590  bottom=308  mid-x=480
+  ══════════════════════════════════════ -->
+  <rect x="374" y="60" width="220" height="252" rx="10" fill="#c5c8e8" opacity="0.35"/>
+  <rect x="370" y="56" width="220" height="252" rx="10" fill="#ffffff" stroke="#5c6bc0" stroke-width="2"/>
+  <rect x="370" y="56" width="220" height="36" rx="10" fill="#5c6bc0"/>
+  <rect x="370" y="74" width="220" height="18" fill="#5c6bc0"/>
+  <text x="480" y="80" text-anchor="middle" font-size="13" font-weight="700" fill="#ffffff">ISSUE</text>
+  <line x1="370" y1="92" x2="590" y2="92" stroke="#5c6bc0" stroke-width="1"/>
+  <rect x="370" y="92"  width="220" height="26" fill="#eef0fb"/>
+  <rect x="370" y="118" width="220" height="26" fill="#f7f8ff"/>
+  <rect x="370" y="144" width="220" height="26" fill="#eef0fb"/>
+  <rect x="370" y="170" width="220" height="26" fill="#f7f8ff"/>
+  <rect x="370" y="196" width="220" height="26" fill="#eef0fb"/>
+  <rect x="370" y="222" width="220" height="26" fill="#f7f8ff"/>
+  <rect x="370" y="248" width="220" height="26" fill="#eef0fb"/>
+  <rect x="370" y="274" width="220" height="34" fill="#f7f8ff"/>
+  <path d="M370 292 h220 v8 q0 8-10 8 h-200 q-10 0-10-8 z" fill="#f7f8ff"/>
+  <text x="382" y="110" font-size="11" fill="#303060" font-weight="600">number</text>
+  <text x="582" y="110" text-anchor="end" font-size="10" fill="#5c6bc0" font-weight="700">int · PK</text>
+  <text x="382" y="136" font-size="11" fill="#555">url</text>
+  <text x="582" y="136" text-anchor="end" font-size="10" fill="#999">string</text>
+  <text x="382" y="162" font-size="11" fill="#555">title</text>
+  <text x="582" y="162" text-anchor="end" font-size="10" fill="#999">string</text>
+  <text x="382" y="188" font-size="11" fill="#555">text</text>
+  <text x="582" y="188" text-anchor="end" font-size="10" fill="#999">string</text>
+  <text x="382" y="214" font-size="11" fill="#555">state</text>
+  <text x="582" y="214" text-anchor="end" font-size="10" fill="#999">string</text>
+  <text x="382" y="240" font-size="11" fill="#555">created_date</text>
+  <text x="582" y="240" text-anchor="end" font-size="10" fill="#999">datetime</text>
+  <text x="382" y="266" font-size="11" fill="#555">updated_date</text>
+  <text x="582" y="266" text-anchor="end" font-size="10" fill="#999">datetime</text>
+  <text x="382" y="295" font-size="11" fill="#555">timeline_url</text>
+  <text x="582" y="295" text-anchor="end" font-size="10" fill="#999">string</text>
+  <line x1="370" y1="118" x2="590" y2="118" stroke="#dde0f5" stroke-width="0.6"/>
+  <line x1="370" y1="144" x2="590" y2="144" stroke="#dde0f5" stroke-width="0.6"/>
+  <line x1="370" y1="170" x2="590" y2="170" stroke="#dde0f5" stroke-width="0.6"/>
+  <line x1="370" y1="196" x2="590" y2="196" stroke="#dde0f5" stroke-width="0.6"/>
+  <line x1="370" y1="222" x2="590" y2="222" stroke="#dde0f5" stroke-width="0.6"/>
+  <line x1="370" y1="248" x2="590" y2="248" stroke="#dde0f5" stroke-width="0.6"/>
+  <line x1="370" y1="274" x2="590" y2="274" stroke="#dde0f5" stroke-width="0.6"/>
+
+  <!-- ══════════════════════════════════════
+       ENTITY: USER  left=720 top=130 w=210 h=78
+       right=930  bottom=208  mid-y=169
+  ══════════════════════════════════════ -->
+  <rect x="724" y="134" width="210" height="78" rx="10" fill="#b8deba" opacity="0.35"/>
+  <rect x="720" y="130" width="210" height="78" rx="10" fill="#ffffff" stroke="#43a047" stroke-width="2"/>
+  <rect x="720" y="130" width="210" height="36" rx="10" fill="#43a047"/>
+  <rect x="720" y="148" width="210" height="18" fill="#43a047"/>
+  <text x="825" y="154" text-anchor="middle" font-size="13" font-weight="700" fill="#ffffff">USER</text>
+  <line x1="720" y1="166" x2="930" y2="166" stroke="#43a047" stroke-width="1"/>
+  <rect x="720" y="166" width="210" height="42" fill="#f1f8f1"/>
+  <path d="M720 190 h210 v10 q0 8-10 8 h-190 q-10 0-10-8 z" fill="#f1f8f1"/>
+  <text x="734" y="184" font-size="11" fill="#1b3a1e" font-weight="600">login</text>
+  <text x="922" y="184" text-anchor="end" font-size="10" fill="#43a047" font-weight="700">string · PK</text>
+
+  <!-- ══════════════════════════════════════
+       ENTITY: LABEL  left=60 top=130 w=210 h=78
+       right=270  bottom=208  mid-y=169
+  ══════════════════════════════════════ -->
+  <rect x="64" y="134" width="210" height="78" rx="10" fill="#ffd699" opacity="0.35"/>
+  <rect x="60" y="130" width="210" height="78" rx="10" fill="#ffffff" stroke="#fb8c00" stroke-width="2"/>
+  <rect x="60" y="130" width="210" height="36" rx="10" fill="#fb8c00"/>
+  <rect x="60" y="148" width="210" height="18" fill="#fb8c00"/>
+  <text x="165" y="154" text-anchor="middle" font-size="13" font-weight="700" fill="#ffffff">LABEL</text>
+  <line x1="60" y1="166" x2="270" y2="166" stroke="#fb8c00" stroke-width="1"/>
+  <rect x="60" y="166" width="210" height="42" fill="#fff8f0"/>
+  <path d="M60 190 h210 v10 q0 8-10 8 h-190 q-10 0-10-8 z" fill="#fff8f0"/>
+  <text x="74" y="184" font-size="11" fill="#3e2000" font-weight="600">name</text>
+  <text x="262" y="184" text-anchor="end" font-size="10" fill="#fb8c00" font-weight="700">string · PK</text>
+
+  <!-- ══════════════════════════════════════
+       ENTITY: EVENT  left=340 top=450 w=290 h=220
+       right=630  bottom=670  mid-x=485
+  ══════════════════════════════════════ -->
+  <rect x="344" y="454" width="290" height="220" rx="10" fill="#f4b8c4" opacity="0.35"/>
+  <rect x="340" y="450" width="290" height="220" rx="10" fill="#ffffff" stroke="#e53935" stroke-width="2"/>
+  <rect x="340" y="450" width="290" height="36" rx="10" fill="#e53935"/>
+  <rect x="340" y="468" width="290" height="18" fill="#e53935"/>
+  <text x="485" y="474" text-anchor="middle" font-size="13" font-weight="700" fill="#ffffff">EVENT</text>
+  <line x1="340" y1="486" x2="630" y2="486" stroke="#e53935" stroke-width="1"/>
+  <rect x="340" y="486" width="290" height="30" fill="#fef5f7"/>
+  <rect x="340" y="516" width="290" height="30" fill="#fce9ed"/>
+  <rect x="340" y="546" width="290" height="30" fill="#fef5f7"/>
+  <rect x="340" y="576" width="290" height="30" fill="#fce9ed"/>
+  <rect x="340" y="606" width="290" height="30" fill="#fef5f7"/>
+  <path d="M340 630 h290 v12 q0 8-10 8 h-270 q-10 0-10-8 z" fill="#fce9ed"/>
+  <text x="354" y="506" font-size="11" fill="#3e0010">event_type</text>
+  <text x="622" y="506" text-anchor="end" font-size="10" fill="#999">string</text>
+  <text x="354" y="536" font-size="11" fill="#3e0010">event_date</text>
+  <text x="622" y="536" text-anchor="end" font-size="10" fill="#999">datetime</text>
+  <text x="354" y="566" font-size="11" fill="#3e0010">comment</text>
+  <text x="622" y="566" text-anchor="end" font-size="10" fill="#999">string · optional</text>
+  <text x="354" y="596" font-size="11" fill="#3e0010">label</text>
+  <text x="622" y="596" text-anchor="end" font-size="10" fill="#999">string · optional</text>
+  <text x="354" y="626" font-size="11" fill="#3e0010" font-weight="600">author</text>
+  <text x="622" y="626" text-anchor="end" font-size="10" fill="#e53935">string · FK → USER</text>
+  <text x="354" y="650" font-size="11" fill="#3e0010" font-weight="600">issue_number</text>
+  <text x="622" y="650" text-anchor="end" font-size="10" fill="#e53935">int · FK → ISSUE</text>
+  <line x1="340" y1="516" x2="630" y2="516" stroke="#f4b8c4" stroke-width="0.6"/>
+  <line x1="340" y1="546" x2="630" y2="546" stroke="#f4b8c4" stroke-width="0.6"/>
+  <line x1="340" y1="576" x2="630" y2="576" stroke="#f4b8c4" stroke-width="0.6"/>
+  <line x1="340" y1="606" x2="630" y2="606" stroke="#f4b8c4" stroke-width="0.6"/>
+  <line x1="340" y1="636" x2="630" y2="636" stroke="#f4b8c4" stroke-width="0.6"/>
+
+  <!-- ══════════════════════════════════════
+       RELATIONSHIPS — orthogonal L-paths
+       All coordinates exactly on entity edges
+  ══════════════════════════════════════ -->
+
+  <!-- REL 1: ISSUE(right=590, y=110) → USER(left=720, y=155)
+       ||──||  "created by"  exactly-one : exactly-one -->
+  <path d="M590 110 L655 110 L655 155 L720 155" fill="none" stroke="#5c6bc0" stroke-width="1.8"/>
+  <!-- || at ISSUE right x=590 -->
+  <line x1="590" y1="104" x2="590" y2="116" stroke="#5c6bc0" stroke-width="2.2"/>
+  <line x1="595" y1="104" x2="595" y2="116" stroke="#5c6bc0" stroke-width="2.2"/>
+  <!-- || at USER left x=720 -->
+  <line x1="720" y1="149" x2="720" y2="161" stroke="#43a047" stroke-width="2.2"/>
+  <line x1="725" y1="149" x2="725" y2="161" stroke="#43a047" stroke-width="2.2"/>
+  <rect x="613" y="95" width="68" height="15" rx="3" fill="#eef0fb"/>
+  <text x="647" y="106" text-anchor="middle" font-size="10" fill="#5c6bc0" font-weight="600">created by</text>
+
+  <!-- REL 2: ISSUE(right=590, y=182) → USER(left=720, y=185)
+       }o──o{  "assigned to"  zero-or-many : zero-or-many -->
+  <path d="M590 182 L690 182 L690 185 L720 185" fill="none" stroke="#5c6bc0" stroke-width="1.8" stroke-dasharray="6,3"/>
+  <!-- }o at ISSUE right -->
+  <polyline points="590,176 598,182 590,188" fill="none" stroke="#5c6bc0" stroke-width="2"/>
+  <circle cx="590" cy="182" r="4" fill="#ffffff" stroke="#5c6bc0" stroke-width="1.8"/>
+  <!-- o{ at USER left -->
+  <circle cx="720" cy="185" r="4" fill="#ffffff" stroke="#43a047" stroke-width="1.8"/>
+  <polyline points="720,179 712,185 720,191" fill="none" stroke="#43a047" stroke-width="2"/>
+  <rect x="613" y="166" width="70" height="15" rx="3" fill="#eef0fb"/>
+  <text x="648" y="177" text-anchor="middle" font-size="10" fill="#5c6bc0" font-weight="600">assigned to</text>
+
+  <!-- REL 3: ISSUE(left=370, y=182) → LABEL(right=270, y=182)
+       }o──o{  "tagged with"  zero-or-many : zero-or-many -->
+  <path d="M370 170 L310 170 L310 182 L270 182" fill="none" stroke="#fb8c00" stroke-width="1.8" stroke-dasharray="6,3"/>
+  <!-- }o at ISSUE left -->
+  <polyline points="370,164 362,170 370,176" fill="none" stroke="#5c6bc0" stroke-width="2"/>
+  <circle cx="370" cy="170" r="4" fill="#ffffff" stroke="#5c6bc0" stroke-width="1.8"/>
+  <!-- o{ at LABEL right -->
+  <circle cx="270" cy="182" r="4" fill="#ffffff" stroke="#fb8c00" stroke-width="1.8"/>
+  <polyline points="270,176 278,182 270,188" fill="none" stroke="#fb8c00" stroke-width="2"/>
+  <rect x="284" y="155" width="68" height="15" rx="3" fill="#fff3e0"/>
+  <text x="318" y="166" text-anchor="middle" font-size="10" fill="#fb8c00" font-weight="600">tagged with</text>
+
+  <!-- REL 4: ISSUE(bottom mid-x=480, y=308) → EVENT(top mid-x=485, y=450)
+       ||──o{  "has timeline"  exactly-one : zero-or-many -->
+  <path d="M480 308 L480 380 L485 380 L485 450" fill="none" stroke="#e53935" stroke-width="1.8"/>
+  <!-- || at ISSUE bottom -->
+  <line x1="474" y1="308" x2="486" y2="308" stroke="#5c6bc0" stroke-width="2.2"/>
+  <line x1="474" y1="313" x2="486" y2="313" stroke="#5c6bc0" stroke-width="2.2"/>
+  <!-- o{ at EVENT top -->
+  <circle cx="485" cy="450" r="4" fill="#ffffff" stroke="#e53935" stroke-width="1.8"/>
+  <polyline points="479,450 485,442 491,450" fill="none" stroke="#e53935" stroke-width="2"/>
+  <rect x="492" y="372" width="72" height="15" rx="3" fill="#fce4ec"/>
+  <text x="528" y="383" text-anchor="middle" font-size="10" fill="#e53935" font-weight="600">has timeline</text>
+
+  <!-- REL 5: EVENT(right=630, y=510) → USER(bottom mid-x=825, y=208)
+       }o──||  "authored by"  zero-or-many : exactly-one -->
+  <path d="M630 510 L825 510 L825 208" fill="none" stroke="#43a047" stroke-width="1.8"/>
+  <!-- }o at EVENT right -->
+  <polyline points="630,504 638,510 630,516" fill="none" stroke="#e53935" stroke-width="2"/>
+  <circle cx="630" cy="510" r="4" fill="#ffffff" stroke="#e53935" stroke-width="1.8"/>
+  <!-- || at USER bottom -->
+  <line x1="819" y1="208" x2="831" y2="208" stroke="#43a047" stroke-width="2.2"/>
+  <line x1="819" y1="203" x2="831" y2="203" stroke="#43a047" stroke-width="2.2"/>
+  <rect x="692" y="494" width="68" height="15" rx="3" fill="#e8f5e9"/>
+  <text x="726" y="505" text-anchor="middle" font-size="10" fill="#43a047" font-weight="600">authored by</text>
+
+  <!-- REL 6: EVENT(left=340, y=560) → LABEL(bottom mid-x=165, y=208)
+       }o──o|  "references"  zero-or-many : zero-or-one -->
+  <path d="M340 560 L165 560 L165 208" fill="none" stroke="#fb8c00" stroke-width="1.8" stroke-dasharray="6,3"/>
+  <!-- }o at EVENT left -->
+  <polyline points="340,554 332,560 340,566" fill="none" stroke="#e53935" stroke-width="2"/>
+  <circle cx="340" cy="560" r="4" fill="#ffffff" stroke="#e53935" stroke-width="1.8"/>
+  <!-- o| at LABEL bottom -->
+  <circle cx="165" cy="208" r="4" fill="#ffffff" stroke="#fb8c00" stroke-width="1.8"/>
+  <line x1="159" y1="208" x2="171" y2="208" stroke="#fb8c00" stroke-width="2.2"/>
+  <rect x="186" y="380" width="62" height="15" rx="3" fill="#fff3e0"/>
+  <text x="217" y="391" text-anchor="middle" font-size="10" fill="#fb8c00" font-weight="600">references</text>
+
+  <!-- ══════════════════════════════════════
+       LEGEND
+  ══════════════════════════════════════ -->
+  <rect x="40" y="700" width="920" height="66" rx="8" fill="#f0f0f8" stroke="#c0c4d6" stroke-width="1"/>
+  <text x="60" y="718" font-size="11" font-weight="700" fill="#1a1a2e">Legend</text>
+  <line x1="60"  y1="740" x2="110" y2="740" stroke="#555" stroke-width="1.8"/>
+  <text x="116" y="744" font-size="10" fill="#333">Mandatory (solid)</text>
+  <line x1="250" y1="740" x2="300" y2="740" stroke="#555" stroke-width="1.8" stroke-dasharray="6,3"/>
+  <text x="306" y="744" font-size="10" fill="#333">Optional (dashed)</text>
+  <line x1="440" y1="733" x2="440" y2="747" stroke="#555" stroke-width="2"/>
+  <line x1="446" y1="733" x2="446" y2="747" stroke="#555" stroke-width="2"/>
+  <line x1="447" y1="740" x2="490" y2="740" stroke="#555" stroke-width="1.8"/>
+  <text x="496" y="744" font-size="10" fill="#333">Exactly one  ||</text>
+  <circle cx="610" cy="740" r="4" fill="none" stroke="#555" stroke-width="1.8"/>
+  <polyline points="610,734 618,740 610,746" fill="none" stroke="#555" stroke-width="1.8"/>
+  <line x1="618" y1="740" x2="660" y2="740" stroke="#555" stroke-width="1.8"/>
+  <text x="666" y="744" font-size="10" fill="#333">Zero or many  }o</text>
+  <circle cx="800" cy="740" r="4" fill="none" stroke="#555" stroke-width="1.8"/>
+  <line x1="808" y1="733" x2="808" y2="747" stroke="#555" stroke-width="2"/>
+  <line x1="808" y1="740" x2="850" y2="740" stroke="#555" stroke-width="1.8"/>
+  <text x="856" y="744" font-size="10" fill="#333">Zero or one  o|</text>
+  <rect x="60"  y="752" width="11" height="11" rx="2" fill="#5c6bc0"/>
+  <text x="76"  y="761" font-size="10" fill="#333">ISSUE</text>
+  <rect x="130" y="752" width="11" height="11" rx="2" fill="#43a047"/>
+  <text x="146" y="761" font-size="10" fill="#333">USER</text>
+  <rect x="200" y="752" width="11" height="11" rx="2" fill="#fb8c00"/>
+  <text x="216" y="761" font-size="10" fill="#333">LABEL</text>
+  <rect x="270" y="752" width="11" height="11" rx="2" fill="#e53935"/>
+  <text x="286" y="761" font-size="10" fill="#333">EVENT</text>
+
+</svg>

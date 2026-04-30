@@ -9,7 +9,8 @@ import argparse
 
 import config
 from example_analysis import ExampleAnalysis
-
+from feature1_analysis import analysis_time_commit_hist
+from feature2_analysis import analysis_label_types
 
 def parse_args():
     """
@@ -35,6 +36,10 @@ def parse_args():
     ap.add_argument('--label', '-l', type=str, required=False,
                     help='Optional parameter for analyses focusing on a specific label')
     
+    ap.add_argument('--months', '-m', type=int, required=False, default=6,
+                    help='Number of months to look back for commit analysis (default: 6)'
+)
+    
     return ap.parse_args()
 
 
@@ -48,9 +53,9 @@ config.overwrite_from_args(args)
 if args.feature == 0:
     ExampleAnalysis().run()
 elif args.feature == 1:
-    pass # TODO call first analysis
+    analysis_time_commit_hist().run()
 elif args.feature == 2:
-    pass # TODO call second analysis
+    analysis_label_types().run() 
 elif args.feature == 3:
     pass # TODO call third analysis
 else:
