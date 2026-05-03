@@ -12,6 +12,7 @@ from example_analysis import ExampleAnalysis
 from feature1_analysis import analysis_time_commit_hist
 from feature3_analysis import SeasonalPatternAnalysis
 
+from feature2_analysis import analysis_label_types
 
 def parse_args():
     """
@@ -56,7 +57,7 @@ if args.feature == 0:
 elif args.feature == 1:
     analysis_time_commit_hist().run()
 elif args.feature == 2:
-    pass # TODO call second analysis
+    analysis_label_types().run() 
 elif args.feature == 3:
     SeasonalPatternAnalysis().run()
 else:

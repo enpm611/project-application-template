@@ -43,9 +43,6 @@ class analysis_time_commit_hist:
         # Group by week
         weekly_counts = df.set_index("date").resample("W").size()
 
-        # Group by week
-        weekly_counts = df.set_index("date").resample("W").size()
-
         # Plot
         plt.figure(figsize=(10, 5))
         weekly_counts.plot(kind="line", marker="o")
@@ -57,8 +54,6 @@ class analysis_time_commit_hist:
 
         plt.tight_layout()
         plt.show()
-
-        breakpoint()
 
     
 
