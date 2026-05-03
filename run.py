@@ -10,6 +10,8 @@ import argparse
 import config
 from example_analysis import ExampleAnalysis
 from feature1_analysis import analysis_time_commit_hist
+from feature3_analysis import SeasonalPatternAnalysis
+
 from feature2_analysis import analysis_label_types
 
 def parse_args():
@@ -57,6 +59,6 @@ elif args.feature == 1:
 elif args.feature == 2:
     analysis_label_types().run() 
 elif args.feature == 3:
-    pass # TODO call third analysis
+    SeasonalPatternAnalysis().run()
 else:
     print('Need to specify which feature to run with --feature flag.')
