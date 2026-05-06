@@ -1,4 +1,3 @@
-
 from typing import List
 import matplotlib.pyplot as plt
 import numpy as np
@@ -25,23 +24,27 @@ class analysis_time_commit_hist:
         """
         Plots number of commits in the last number of months
         """
-
-        
-
         issues:List[Issue] = DataLoader().get_issues()
 
         # Extract created dates from Issue objects
         dates = [issue.created_date for issue in issues if issue.created_date]
 
-        # Convert to DataFrame
-        df = pd.DataFrame({"date": pd.to_datetime(dates)})
+        # Convert to DataFrame, then strip timezone so the column is tz-naive.
+        df = pd.DataFrame({"date": pd.to_datetime(dates, utc=True)})
+        df["date"] = df["date"].dt.tz_localize(None)
 
-        # Filter last user specified number of months
-        six_months_ago = pd.Timestamp.now(tz="UTC") - pd.DateOffset(months=self.months)
-        df = df[df["date"] >= six_months_ago]
+        # Build a tz-naive cutoff to match the stripped column.
+        cutoff = pd.Timestamp.now(tz="UTC") - pd.DateOffset(months=self.months)
+        cutoff = cutoff.replace(tzinfo=None)
+        df = df[df["date"] >= cutoff]
 
         # Group by week
         weekly_counts = df.set_index("date").resample("W").size()
+
+        # Guard: nothing to plot
+        if weekly_counts.empty:
+            print(f"No issues found in the last {self.months} month(s). Nothing to plot.")
+            return
 
         # Plot
         plt.figure(figsize=(10, 5))
@@ -55,7 +58,6 @@ class analysis_time_commit_hist:
         plt.tight_layout()
         plt.show()
 
-    
 
 if __name__ == '__main__':
     # Invoke run method when running this module directly
