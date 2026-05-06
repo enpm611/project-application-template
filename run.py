@@ -8,11 +8,11 @@ the command line to run the analyses.
 import argparse
 
 import config
-from example_analysis import ExampleAnalysis
 from feature1_analysis import analysis_time_commit_hist
+from feature2_analysis import analysis_label_types
 from feature3_analysis import SeasonalPatternAnalysis
 
-from feature2_analysis import analysis_label_types
+
 
 def parse_args():
     """
