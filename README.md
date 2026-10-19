@@ -1,3 +1,14 @@
+ENPM611_Group-4_Poetry-Issue-Activity
+Chosen analyses of Poetry issues for this activity will include:
+- Label Resolution Analysis: comparing the time to close per label
+- Issue Trend Analysis: opened vs. closed issues each month to determine the backlog trend
+- Contributor Activity Analysis: determine the top contributors for each user activity. 
+
+
+
+
+
+
 # ENPM611 Project Application Template
 
 This is the template for the ENPM611 class project. Use this template in conjunction with the provided data to implement an application that analyzes GitHub issues for the [poetry](https://github.com/python-poetry/poetry/issues) Open Source project and generates interesting insights.
