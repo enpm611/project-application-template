@@ -1,49 +1,94 @@
-# ENPM611 Project Application Template
+# Poetry Issues
 
-This is the template for the ENPM611 class project. Use this template in conjunction with the provided data to implement an application that analyzes GitHub issues for the [poetry](https://github.com/python-poetry/poetry/issues) Open Source project and generates interesting insights.
+An interactive dashboard for exploring Poetry’s GitHub issues: what remains open, where work is aging, and which issues need attention.
 
-This application template implements some of the basic functions:
+Built from the ENPM611 project template, Poetry Issues combines searchable issue history, visual analytics, and local severity classification.
 
-- `data_loader.py`: Utility to load the issues from the provided data file and returns the issues in a runtime data structure (e.g., objects)
-- `model.py`: Implements the data model into which the data file is loaded. The data can then be accessed by accessing the fields of objects.
-- `config.py`: Supports configuring the application via the `config.json` file. You can add other configuration paramters to the `config.json` file.
-- `run.py`: This is the module that will be invoked to run your application. Based on the `--feature` command line parameter, one of the three analyses you implemented will be run. You need to extend this module to call other analyses.
+## Dataset
 
-With the utility functions provided, you should focus on implementing creative analyses that generate intersting and insightful insights.
+The application uses `poetry_issues_all.json`. The smaller export is retained for validation; the files are not combined because their issue numbers overlap.
 
-In addition to the utility functions, an example analysis has also been implemented in `example_analysis.py`. It illustrates how to use the provided utility functions and how to produce output.
+| Metric | Count |
+|---|---:|
+| Total issues | 5,573 |
+| Open / closed | 317 / 5,256 |
+| Bug-labeled issues | 2,860 |
+| Open bug-labeled issues | 164 |
+| Recorded comment events | 29,461 |
 
-## Setup
+## Features
 
-To get started, your team should create a fork of this repository. Then, every team member should clone your repository to their local computer. 
+- **Overview:** open, closed, and bug-labeled totals.
+- **Issue explorer:** search and filter by state, type, severity, ownership, and age.
+- **Backlog aging:** clickable age bands reveal long-waiting issues.
+- **Monthly trends:** compare issue creation and final recorded closures.
+- **Calendar heat map:** explore daily creation activity by year.
+- **Issue details:** descriptions, comments, recorded timelines, and GitHub links.
+- **Manual severity:** save Critical, Major, Minor, or Unclassified locally.
 
+All visualizations follow the dashboard filters.
 
-### Install dependencies
+## Interpreting the Data
 
-In the root directory of the application, create a virtual environment, activate that environment, and install the dependencies like so:
+**Issue type and severity answer different questions.** Type describes the work; severity describes its impact. Types come from explicit labels. The export contains no task/project or severity labels, so these classifications are not inferred.
 
+Manual severity choices update the dashboard, persist across restarts, and remain separate from GitHub labels. They can be removed to restore the original classification.
+
+Three distinctions matter:
+
+- **Closed does not mean fixed.** Issues may be duplicates, invalid reports, or declined requests.
+- **Current ownership does not prove who resolved an issue.** Historical assignment evidence is incomplete.
+- **Missing dates are not zero durations.** Of the closed issues, 223 lack a usable closure date.
+
+Open-issue age is measured at the historical reference. Closed duration runs from creation to the final recorded closure, including intervening closed periods. Comment counts reflect collected events; completeness is unverified.
+
+## Architecture
+
+| Component | Purpose |
+|---|---|
+| `analytics.py` | Normalize data, classify issues, and calculate metrics |
+| `app.py` | Serve the dashboard and API; manage SQLite storage |
+| `web/` | Interface, interactions, and styling |
+| `tests/` | Metric, persistence, classification, and calendar checks |
+
+Source JSON remains unchanged. SQLite stores the active snapshot and separate manual severity overrides.
+
+### Diagrams
+
+> **Original template component diagram**  
+> Asset: `team_5_component_diagram_before.svg.svg`
+
+> **Proposed template extension**  
+> Asset: `team_5_component_diagram_after.svg.svg`
+
+> **Proposed contributor-analysis sequence**  
+> Asset: `team_5_sequence_diagram.svg.svg`
+
+The proposed diagrams reference planned command-line modules, not the current dashboard.
+
+> **Current dashboard architecture**  
+> JSON import → normalization → SQLite → API → dashboard
+
+## Run Locally
+
+Requires Python 3.10+ and a modern browser. No third-party Python packages are needed.
+
+```sh
+python3 app.py \
+  --data /path/to/poetry_issues_all.json \
+  --observed-at 2024-10-20T17:19:04+00:00
 ```
-pip install -r requirements.txt
+
+Open **http://127.0.0.1:8765/**.
+
+For later sessions, run `python3 app.py` to reuse stored data. Stop with `Ctrl+C`.
+
+## Verification
+
+```sh
+python3 -m unittest discover -s tests -v
+node tests/test_calendar.cjs
+node --check web/app.js
 ```
 
-### Download and configure the data file
 
-Download the data file (in `json` format) from the project assignment in Canvas and update the `config.json` with the path to the file. Note, you can also specify an environment variable by the same name as the config setting (`ENPM611_PROJECT_DATA_PATH`) to avoid committing your personal path to the repository.
-
-
-### Run an analysis
-
-With everything set up, you should be able to run the existing example analysis:
-
-```
-python run.py --feature 0
-```
-
-That will output basic information about the issues to the command line.
-
-
-## VSCode run configuration
-
-To make the application easier to debug, runtime configurations are provided to run each of the analyses you are implementing. When you click on the run button in the left-hand side toolbar, you can select to run one of the three analyses or run the file you are currently viewing. That makes debugging a little easier. This run configuration is specified in the `.vscode/launch.json` if you want to modify it.
-
-The `.vscode/settings.json` also customizes the VSCode user interface sligthly to make navigation and debugging easier. But that is a matter of preference and can be turned off by removing the appropriate settings.
