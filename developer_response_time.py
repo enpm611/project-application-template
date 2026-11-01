@@ -308,9 +308,13 @@ class DeveloperResponseAnalysis:
         print(f"\nSlowest first replies (top {TOP_ISSUES}):")
         #longest waits first
         self.print_issues(sorted(answered, key=lambda r: -r.days)[:TOP_ISSUES])
-        print(f"\nLongest waiting with no developer reply (top {TOP_ISSUES}):")
-        #oldest unanswered first
-        self.print_issues(sorted(unanswered, key=lambda r: -r.days)[:TOP_ISSUES])
+        #only open issues are still waiting; a closed issue is no longer waiting for anything
+        still_waiting = [r for r in unanswered if r.issue.state == "open"]
+        #date the waiting time is measured up to
+        as_of = asof.date().isoformat() if asof else "the data snapshot"
+        print(f"\nOpen issues waiting for a developer reply (as of {as_of}, top {TOP_ISSUES}):")
+        #oldest still-waiting issues first
+        self.print_issues(sorted(still_waiting, key=lambda r: -r.days)[:TOP_ISSUES])
 
         #developer name -> number of issues they replied to first
         counts = {}

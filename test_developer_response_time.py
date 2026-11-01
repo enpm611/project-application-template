@@ -254,6 +254,20 @@ class RunTests(unittest.TestCase):
         #empty statistics handled
         self.assertIn("No issues in this selection received a developer reply.", text)
 
+    def test_closed_issues_are_not_listed_as_waiting(self):
+        #a closed issue with no developer reply, much older than the open one
+        self.issues.append(make_issue([], number=3, state="closed",
+                                      created="2020-01-01T00:00:00+00:00"))
+        text = self.run_analysis()
+        #the waiting list only covers open issues
+        waiting = text.split("Open issues waiting for a developer reply")[1].split("Developers who")[0]
+        #the open unanswered issue is listed
+        self.assertIn("#2 [open]", waiting)
+        #the closed one is not, even though it is older
+        self.assertNotIn("#3", waiting)
+        #but it is still counted in the summary line
+        self.assertIn("1 still open, 1 closed without a developer comment", text)
+
     def test_unknown_label_does_not_crash(self):
         #a label no issue has
         text = self.run_analysis(label="does/not-exist")
