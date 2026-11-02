@@ -1,5 +1,6 @@
 
 import json
+import os
 from typing import List
 
 import config
@@ -34,6 +35,10 @@ class DataLoader:
         """
         Loads the issues into memory.
         """
+        if not self.data_path or not os.path.isfile(str(self.data_path)):
+            raise FileNotFoundError(
+                f'Data file not found: {self.data_path!r}. Set ENPM611_PROJECT_DATA_PATH '
+                '(environment variable or config.json) to the path of the issues JSON file.')
         with open(self.data_path,'r') as fin:
             return [Issue(i) for i in json.load(fin)]
     

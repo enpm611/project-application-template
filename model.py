@@ -5,8 +5,20 @@ the properties contained in the issues JSON.
 
 from typing import List, Dict, Set, Tuple
 from enum import Enum
-from datetime import datetime
+from datetime import datetime, timezone
 from dateutil import parser
+
+
+def _as_utc(value:datetime) -> datetime:
+    """
+    Returns the datetime as a timezone-aware UTC datetime so that dates
+    can always be subtracted from each other safely.
+    """
+    if value is None:
+        return None
+    if value.tzinfo is None:
+        return value.replace(tzinfo=timezone.utc)
+    return value.astimezone(timezone.utc)
 
 
 class State(str, Enum):
@@ -38,6 +50,14 @@ class Event:
             pass
         self.label = jobj.get('label')
         self.comment = jobj.get('comment')
+
+    @property
+    def is_human(self) -> bool:
+        """
+        True if the event was caused by a real user (not a bot such as
+        github-actions[bot] and not an unknown/deleted user).
+        """
+        return bool(self.author) and not self.author.endswith('[bot]')
         
         
 class Issue:
@@ -81,3 +101,30 @@ class Issue:
             pass
         self.timeline_url = jobj.get('timeline_url')
         self.events = [Event(jevent) for jevent in jobj.get('events',[])]
+
+    @property
+    def closed_date(self) -> datetime:
+        """
+        Date of the most recent 'closed' event, or None if the issue has
+        no closing event in the data (some closed issues are missing it).
+        """
+        dates = [_as_utc(e.event_date) for e in self.events
+                 if e.event_type == 'closed' and e.event_date is not None]
+        return max(dates) if dates else None
+
+    def days_to_close(self) -> float:
+        """
+        Number of days between creation and closing. Returns None for issues
+        that are still open, have no closing event, or have no creation date.
+        """
+        closed = self.closed_date
+        if self.state != State.closed or closed is None or self.created_date is None:
+            return None
+        days = (closed - _as_utc(self.created_date)).total_seconds() / 86400
+        return days if days >= 0 else None
+
+    def human_comments(self) -> List[Event]:
+        """
+        All comment events written by real users (bots excluded).
+        """
+        return [e for e in self.events if e.event_type == 'commented' and e.is_human]
