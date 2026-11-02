@@ -10,23 +10,23 @@
             "args": ["--feature","0","--user","amueller"] 
         },
         {
-            "name": "Run feature 1",
+            "name": "Run feature 1 (label resolution)",
             "type": "debugpy",
             "request": "launch",
             "program": "${workspaceFolder}/run.py",
             "console": "integratedTerminal",
-            "args": ["--feature","1","--user","amueller"] 
+            "args": ["--feature","1","--label","kind/bug"] 
         },
         {
-            "name": "Run feature 2",
+            "name": "Run feature 2 (contributor activity)",
             "type": "debugpy",
             "request": "launch",
             "program": "${workspaceFolder}/run.py",
             "console": "integratedTerminal",
-            "args": ["--feature","2"] 
+            "args": ["--feature","2","--user","finswimmer"] 
         },
         {
-            "name": "Run feature 3",
+            "name": "Run feature 3 (issue trend)",
             "type": "debugpy",
             "request": "launch",
             "program": "${workspaceFolder}/run.py",
