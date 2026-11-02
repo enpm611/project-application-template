@@ -4,9 +4,12 @@ import matplotlib.pyplot as plt
 
 from data_loader import DataLoader
 from model import State
+
+
 """
-Feature 1 Analysis Module  -  run.py feature 1
+Feature 1 Analysis Module - run.py feature 1
 """
+
 
 class Feature1Analysis:
 
@@ -58,7 +61,7 @@ class Feature1Analysis:
             resolution_days = (
                 close_date - issue.created_date
             ).total_seconds() / 86400
-            
+
             if resolution_days < 0:
                 continue
 
@@ -71,7 +74,10 @@ class Feature1Analysis:
 
         print(f"\nTotal issues: {len(self.issues)}")
         print(f"Closed issues: {closed_issues}")
-        print(f"Closed issues without a closing event: {missing_close_dates}")
+        print(
+            f"Closed issues without a closing event: "
+            f"{missing_close_dates}"
+        )
 
         return label_resolution_times
 
@@ -80,30 +86,52 @@ class Feature1Analysis:
         label_data = self.calculate_resolution_times()
 
         if not label_data:
-            print("\nNo issues with usable resolution dates and labels were found.")
+            print(
+                "\nNo issues with usable resolution dates "
+                "and labels were found."
+            )
             return
 
         results = {}
 
         for label, resolution_times in label_data.items():
 
-            results[label] = median(resolution_times)
+            if len(resolution_times) >= 5:
+                results[label] = {
+                    "median": median(resolution_times),
+                    "count": len(resolution_times)
+                }
 
-        # sorts the labels by median resolution time.
+        if not results:
+            print(
+                "\nNo labels have at least 5 resolved issues."
+            )
+            return
+
+        # Sort labels by median resolution time.
         sorted_results = sorted(
             results.items(),
-            key=lambda item: item[1]
+            key=lambda item: item[1]["median"]
         )
 
         print("\nLABEL RESOLUTION ANALYSIS")
-        print("-" * 55)
+        print("-" * 65)
 
-        for label, days in sorted_results:
-            print(f"{label:<30} {days:>20.2f}")
+        for label, data in sorted_results:
+            print(
+                f"{label:<35} "
+                f"Median: {data['median']:>8.2f} days "
+                f"Issues: {data['count']}"
+            )
 
-        # generates the following bar chart.
-        labels = [item[0] for item in sorted_results]
-        resolution_days = [item[1] for item in sorted_results]
+        # Generate the bar chart.
+        labels = [
+            item[0] for item in sorted_results
+        ]
+
+        resolution_days = [
+            item[1]["median"] for item in sorted_results
+        ]
 
         plt.figure(figsize=(12, 6))
 
@@ -117,5 +145,3 @@ class Feature1Analysis:
         plt.tight_layout()
 
         plt.show()
- 
-^X Exit          ^R Read File     ^\ Replace       ^U Paste         ^J Justify       ^/ Go To Line    M-E Redo         M-6 Copy         ^B Where Was     M-F Next         ▸ Forward        ^▸ Next Word
