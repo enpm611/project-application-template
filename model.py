@@ -81,3 +81,18 @@ class Issue:
             pass
         self.timeline_url = jobj.get('timeline_url')
         self.events = [Event(jevent) for jevent in jobj.get('events',[])]
+
+    def get_closed_date(self, fallback_to_updated:bool=False) -> datetime:
+        """
+        Returns when the issue was (last) closed, based on its 'closed' events.
+        Reopened issues may have several 'closed' events, so the latest one is used.
+        Returns None for open issues. For closed issues without a 'closed' event,
+        returns the updated_date if fallback_to_updated is True, otherwise None.
+        """
+        if self.state != State.closed:
+            return None
+        closed_dates = [e.event_date for e in self.events
+                        if e.event_type == 'closed' and e.event_date is not None]
+        if closed_dates:
+            return max(closed_dates)
+        return self.updated_date if fallback_to_updated else None
