@@ -224,15 +224,26 @@ class RelatedIssuesAnalysis:
                     format_days(s['ref_to_close'], issue),
                     s['participants'], s['insiders'], issue.title]
 
+        print('Columns:')
+        print('  issue            issue number')
+        print('  link             target, or how the issue relates to it: outgoing (the target '
+              'references it), incoming (it references the target) or both')
+        print('  state            open or closed')
+        print('  refs             titles, bodies and comments that link the issue and the target '
+              '(for the target, all of them)')
+        print('  first ref        date of the earliest of those references')
+        print('  days to close    days from creation to the close; "open" if still open, '
+              '"n/a" if closed with no close date')
+        print('  ref to close     days from the first ref to the close, negative when the '
+              'reference came after the close')
+        print('  people           distinct commenters')
+        print('  reporter/maint.  how many of those commenters are the reporter or a maintainer')
+        print('  title            issue title\n')
+
         print_table(['issue', 'link', 'state', 'refs', 'first ref', 'days to close',
                      'ref to close', 'people', 'reporter/maint.', 'title'],
                     [row(target, 'target', target_stats)]
                     + [row(by_number[n], related[n], stats[n]) for n in sorted(related)])
-        print('refs: titles, bodies and comments that link the issue and the target '
-              '(for the target, all of them). first ref: date of the earliest. '
-              'ref to close: days from the first ref to the close, negative when the '
-              'reference came after the close. people: distinct commenters; '
-              'reporter/maint.: how many of them are the reporter or a maintainer.\n')
 
         print_finding(self.finding(target, target_stats, related, stats))
         # Open issues are measured up to the newest date in the data, not today
