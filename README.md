@@ -1,135 +1,49 @@
-# ENPM611 Team 1: Poetry Issue Analyzer
+# ENPM611 Project Application Template
 
-A command-line application that analyzes the GitHub issues of the open-source
-[Poetry](https://github.com/python-poetry/poetry) project (issue and event data
-provided as a JSON file). It answers three questions about how issues are
-labeled, who works on them, and how issue activity changes over time, and shows
-the results as console output and matplotlib charts.
+This is the template for the ENPM611 class project. Use this template in conjunction with the provided data to implement an application that analyzes GitHub issues for the [poetry](https://github.com/python-poetry/poetry/issues) Open Source project and generates interesting insights.
 
-This repository is a fork of the ENPM611 application template. The design
-diagrams from Milestone 1 are in [`docs/`](docs/).
+This application template implements some of the basic functions:
+
+- `data_loader.py`: Utility to load the issues from the provided data file and returns the issues in a runtime data structure (e.g., objects)
+- `model.py`: Implements the data model into which the data file is loaded. The data can then be accessed by accessing the fields of objects.
+- `config.py`: Supports configuring the application via the `config.json` file. You can add other configuration paramters to the `config.json` file.
+- `run.py`: This is the module that will be invoked to run your application. Based on the `--feature` command line parameter, one of the three analyses you implemented will be run. You need to extend this module to call other analyses.
+
+With the utility functions provided, you should focus on implementing creative analyses that generate intersting and insightful insights.
+
+In addition to the utility functions, an example analysis has also been implemented in `example_analysis.py`. It illustrates how to use the provided utility functions and how to produce output.
 
 ## Setup
 
-**Python version:** Python 3.10 or newer (developed and tested with Python 3.12).
+To get started, your team should create a fork of this repository. Then, every team member should clone your repository to their local computer. 
 
-**Dependencies:** `python-dateutil`, `numpy`, `pandas`, `matplotlib`
-(listed in `requirements.txt`).
 
-1. Clone this repository.
-2. Create and activate a virtual environment in the repository root:
-   - macOS / Linux: `python3 -m venv venv && source venv/bin/activate`
-   - Windows (PowerShell): `python -m venv venv; venv\Scripts\Activate.ps1`
-3. Install the dependencies: `pip install -r requirements.txt`
+### Install dependencies
 
-### Configure the dataset path
-
-Download the issues JSON file from the project assignment in Canvas. Then tell
-the application where it is, using **either** way (the environment variable
-takes priority and keeps your personal path out of the repository):
-
-- Environment variable (recommended)
-  - macOS / Linux: `export ENPM611_PROJECT_DATA_PATH=/path/to/poetry_issues.json`
-  - Windows (PowerShell): `$env:ENPM611_PROJECT_DATA_PATH="C:\path\to\poetry_issues.json"`
-- or edit `ENPM611_PROJECT_DATA_PATH` in `config.json` (do not commit your personal path).
-
-Do not commit the data file. If the path is missing or wrong, the application
-prints a clear error message instead of crashing.
-
-## Running the features
+In the root directory of the application, create a virtual environment, activate that environment, and install the dependencies like so:
 
 ```
-python run.py --feature 1                    # label comparison (all labels)
-python run.py --feature 1 --label kind/bug   # one label in detail
-python run.py --feature 2                    # contributor activity (whole project)
-python run.py --feature 2 --user abn         # one contributor vs. the top contributors
-python run.py --feature 3                    # activity trends over time
-python run.py --feature 0                    # template example analysis
+pip install -r requirements.txt
 ```
 
-The label (`kind/bug`) and user (`abn`) above are examples from the Poetry
-dataset. Use a label or user that exists in **your** dataset file: label names
-and contributors differ between datasets. `--label` and `--user` are optional
-and case-insensitive. If the label or user
-is not found, the application suggests similar names and exits cleanly.
-Charts open in a matplotlib window; close the window to continue (feature 2
-shows two charts, one after the other).
+### Download and configure the data file
 
-## The three analyses
+Download the data file (in `json` format) from the project assignment in Canvas and update the `config.json` with the path to the file. Note, you can also specify an environment variable by the same name as the config setting (`ENPM611_PROJECT_DATA_PATH`) to avoid committing your personal path to the repository.
 
-Every analysis prints its **question**, **method** and **finding** to the console.
 
-### Feature 1: Label resolution (`label_resolution_analysis.py`)
+### Run an analysis
 
-_Feature 1 owner: replace this line with the question, run commands, method, output and limitations of feature 1._
+With everything set up, you should be able to run the existing example analysis:
 
-### Feature 2: Contributor activity (`contributor_activity_analysis.py`)
+```
+python run.py --feature 0
+```
 
-_Feature 2 owner: replace this line with the question, run commands, method, output and limitations of feature 2._
+That will output basic information about the issues to the command line.
 
-### Feature 3: Discussion trends (`discussion_trend_analysis.py`)
 
-_Feature 3 owner: replace this line with the question, run commands, method, output and limitations of feature 3._
+## VSCode run configuration
 
-## Known limitations and assumptions
+To make the application easier to debug, runtime configurations are provided to run each of the analyses you are implementing. When you click on the run button in the left-hand side toolbar, you can select to run one of the three analyses or run the file you are currently viewing. That makes debugging a little easier. This run configuration is specified in the `.vscode/launch.json` if you want to modify it.
 
-- **Bots are excluded** (authors ending in `[bot]`) from comment, contributor
-  and response-time statistics.
-- **Time to close** uses the date of the last `closed` event. Closed issues
-  without a closing event in the data (20 of 401 in `poetry_issues.json`) and
-  open issues are left out of timing statistics. Reopened issues use their latest close.
-- **Triage** (feature 2): labels and closes made by the issue's own reporter are
-  not counted, because issue templates attribute automatic labels to the
-  reporter and reporters closing their own issue is not triage work.
-- **First response** is the first human comment by someone other than the
-  issue creator. **Time to triage** only counts issues whose `status/triage`
-  label was actually removed; issues closed while still marked "triage" are not
-  included.
-- **Triagers** (feature 3) are people with at least 5 label or close actions on
-  issues they did not report.
-- **Subset vs. full dataset:** the provided subset (`poetry_issues.json`) is not
-  representative over time: almost all of its closings are in 2024, which makes
-  the closed/opened ratio and early-year statistics unreliable. Feature 3 prints
-  a warning when this happens. Running the analyses on `poetry_issues_all.json`
-  gives noticeably different results (for example in the first-response
-  concentration); always state which file a result comes from.
-- Most issues in the dataset are from 2024, so earlier years have few issues
-  and their medians are less reliable (years with fewer than 10 issues are not
-  used in the first-vs-last comparison). The final quarter may be incomplete.
-- Medians for labels with few resolved issues are unreliable; feature 1 only
-  compares labels with at least 5 resolved issues.
-- If a dataset has too few issues with a closing event (no label with at least 5
-  timed issues), feature 1 falls back to comparing discussion per label only and
-  says so.
-- Results depend on the dataset file used.
-
-## Differences from the Milestone 1 design
-
-- `model.py` gained small helpers shared by all analyses (`Event.is_human`,
-  `Issue.closed_date`, `Issue.days_to_close()`, `Issue.human_comments()`) instead
-  of duplicating this logic in each analysis.
-- `data_loader.py` raises a clear error when the data path is not configured;
-  `run.py` now has a `main()` function and reports that error cleanly.
-- Feature 2 does more than the Milestone 1 sequence diagram shows: it also
-  prints a written finding after the correlations, computes first-reply
-  concentration (extra table and a third chart), and prints a message and exits
-  when the requested user does not exist. The component structure is unchanged.
-- The three analysis modules also import `model.py` (for `Issue`), which the
-  component diagram does not show.
-
-## Team contributions
-
-Each member describes their own work in their own subsection below (edit only
-your own subsection and your own feature section above).
-
-### [Member 1: name]
-
-_Replace this line with what this member implemented and contributed._
-
-### [Member 2: name]
-
-_Replace this line with what this member implemented and contributed._
-
-### [Member 3: name]
-
-_Replace this line with what this member implemented and contributed._
+The `.vscode/settings.json` also customizes the VSCode user interface sligthly to make navigation and debugging easier. But that is a matter of preference and can be turned off by removing the appropriate settings.
