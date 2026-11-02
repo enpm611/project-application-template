@@ -8,7 +8,7 @@ from model import Issue, State
 import config
 
 
-class IssueLabelAnalysis:
+class IssueTrendAnalysis:
     def __init__(self):
         # Comes from the --label command-line argument
         self.label = config.get_parameter('label')
@@ -203,4 +203,5 @@ class IssueLabelAnalysis:
 
 
 if __name__ == '__main__':
-    IssueLabelAnalysis().run()
+    # Invoke run method when running this module directly
+    IssueTrendAnalysis().run()
