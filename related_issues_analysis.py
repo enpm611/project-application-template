@@ -235,7 +235,10 @@ class RelatedIssuesAnalysis:
               'reporter/maint.: how many of them are the reporter or a maintainer.\n')
 
         print_finding(self.finding(target, target_stats, related, stats))
-        self.plot(target, target_stats, related, stats, by_number)
+        # Open issues are measured up to the newest date in the data, not today
+        as_of = max((d for i in issues for d in (i.created_date, i.updated_date) if d is not None),
+                    default=None)
+        self.plot(target, target_stats, related, stats, by_number, as_of)
 
     def finding(self, target:Issue, target_stats:dict, related:Dict[int, str],
                 stats:Dict[int, dict]) -> str:
@@ -266,12 +269,13 @@ class RelatedIssuesAnalysis:
         return text
 
     def plot(self, target:Issue, target_stats:dict, related:Dict[int, str],
-             stats:Dict[int, dict], by_number:Dict[int, Issue]):
+             stats:Dict[int, dict], by_number:Dict[int, Issue], as_of:Optional[datetime]):
         """
         Plots a timeline with one bar per issue, from creation to close,
         and a marker at its first reference. The target's lifespan is
-        shaded behind the bars. Issues still open (or with no close date)
-        run to the right edge.
+        shaded behind the bars. Issues still open run to the right edge,
+        labelled with the days open so far (up to as_of) and a '+'. Closed
+        issues without a close date run to the edge and end in a '?'.
         """
         rows = [(target, 'target', target_stats)] \
             + [(by_number[n], related[n], stats[n]) for n in sorted(related)]
@@ -298,25 +302,34 @@ class RelatedIssuesAnalysis:
             ax.plot(issue.created_date, y, marker='o', color=colors[link], markersize=6)
             if end is not None:
                 ax.plot(end, y, marker='|', color=colors[link], markersize=12, markeredgewidth=2)
+                label = format_days(s['time_to_close'], issue)
+            elif issue.state == State.open:
+                label = f'{days(as_of - issue.created_date):.1f}+' if as_of is not None else ''
+            else:
+                ax.plot(edge, y, marker='$?$', color=colors[link], markersize=10,
+                        clip_on=False)
+                label = ''
             if s['first_ref'] is not None:
                 ax.plot(s['first_ref'], y, marker='D', color='red', markerfacecolor='none',
                         markersize=8, markeredgewidth=1.5)
-            ax.annotate(format_days(s['time_to_close'], issue), (end or edge, y),
-                        xytext=(6, 0), textcoords='offset points', va='center', fontsize=8)
+            ax.annotate(label, (end or edge, y), xytext=(6, 0), textcoords='offset points',
+                        va='center', fontsize=8)
 
         ax.set_yticks(range(len(rows)), [f'#{issue.number}' for issue, _, _ in rows])
         ax.invert_yaxis()
         ax.set_xlim(right=edge)
         ax.set_title(f'Issues related to #{target.number}: lifespan and first reference')
-        ax.set_xlabel('Date (labels at bar ends: days to close)')
+        ax.set_xlabel('Date (labels at bar ends: days to close, or days open so far with +)')
         ax.set_ylabel('Issue')
         handles = [Line2D([], [], color=c, linewidth=6, label=l) for l, c in colors.items()
                    if l == 'target' or l in related.values()]
         handles += [Line2D([], [], color='grey', linewidth=6, linestyle='dotted',
-                           label='open or no close date'),
+                           label='open (still running)'),
                     Line2D([], [], color='grey', marker='o', linestyle='', label='created'),
                     Line2D([], [], color='grey', marker='|', markersize=12, markeredgewidth=2,
                            linestyle='', label='closed'),
+                    Line2D([], [], color='grey', marker='$?$', linestyle='',
+                           label='closed, date unknown'),
                     Line2D([], [], color='red', marker='D', markerfacecolor='none',
                            markeredgewidth=1.5, linestyle='', label='first reference'),
                     Patch(color='grey', alpha=0.15, label=f'#{target.number} open')]
